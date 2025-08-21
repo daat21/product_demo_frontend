@@ -24,6 +24,7 @@ import { NavUser } from "./nav-user";
 import { NavMain } from "./nav-main";
 import { NavSecondary } from "./nav-secondary";
 import { NavDocuments } from "./nav-documents";
+import Link from "next/link";
 
 const data = {
   user: {
@@ -34,47 +35,47 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/",
       icon: LayoutDashboard,
       isActive: true,
     },
     {
       title: "Gallery",
-      url: "#",
+      url: "/gallery",
       icon: Images,
     },
     {
       title: "Queue",
-      url: "#",
+      url: "/queue",
       icon: SquareChartGantt,
     },
     {
       title: "Profile",
-      url: "#",
+      url: "/profile",
       icon: UserPen,
     },
   ],
   navSecondary: [
     {
       title: "Settings",
-      url: "#",
+      url: "/settings",
       icon: Settings,
     },
     {
       title: "Get Help",
-      url: "#",
+      url: "/help",
       icon: CircleQuestionMark,
     },
   ],
   navDocuments: [
     {
       name: "Data Library",
-      url: "#",
+      url: "/data-library",
       icon: Database,
     },
     {
       name: "Reports",
-      url: "#",
+      url: "/reports",
       icon: ClipboardPlus,
     },
   ],
@@ -87,14 +88,14 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
+              <Link href="/">
                 <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <Command className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">SpotFake.AI</span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
