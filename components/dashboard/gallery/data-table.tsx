@@ -19,17 +19,19 @@ import {
 
 import { DataTableToolbar } from "./data-table-toolbar";
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends { id: string }, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends { id: string }, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const router = useRouter();
   const table = useReactTable({
     data,
     columns,
@@ -65,7 +67,20 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
+                  className="cursor-pointer hover:bg-muted/50"
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={(event) => {
+                    const target = event.target as HTMLElement;
+                    if (
+                      target.closest(
+                        'button, a, input, textarea, [role="menuitem"], [data-no-row-click]'
+                      )
+                    ) {
+                      return;
+                    }
+                    const id = row.original.id;
+                    router.push(`/gallery/${id}`);
+                  }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

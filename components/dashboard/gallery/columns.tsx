@@ -1,9 +1,12 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { Loader2, MoreHorizontal } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
+import {
+  StatusBadge,
+  type ClaimStatus,
+} from "@/components/dashboard/status-badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,37 +16,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Progress } from "@/components/ui/progress";
 
 export type Claim = {
   id: string;
   title: string;
-  status: "todo" | "in progress" | "done";
+  status: ClaimStatus; // TODO
   ai_score: number | null;
-};
-
-const STATUS_LABELS: Record<Claim["status"], string> = {
-  todo: "To-do",
-  "in progress": "In Progress",
-  done: "Done",
-};
-
-type BadgeVariant = "default" | "secondary" | "destructive" | "outline";
-
-const STATUS_STYLES: Record<
-  Claim["status"],
-  { variant: BadgeVariant; className?: string }
-> = {
-  todo: { variant: "secondary" },
-  "in progress": {
-    variant: "outline",
-    className:
-      "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-400/20 dark:text-yellow-300 dark:border-yellow-400/30",
-  },
-  done: {
-    variant: "outline",
-    className:
-      "bg-green-100 text-green-800 border-green-200 dark:bg-green-400/20 dark:text-green-300 dark:border-green-400/30",
-  },
+  date: string;
+  // TODO: Add DATE
 };
 
 export const columns: ColumnDef<Claim>[] = [
@@ -51,6 +32,10 @@ export const columns: ColumnDef<Claim>[] = [
     accessorKey: "id",
     header: "ID",
     // cell: ({ row }) => <div className="w-[40px]">{row.getValue("id")}</div>,
+  },
+  {
+    accessorKey: "date",
+    header: "Date",
   },
   {
     accessorKey: "title",
@@ -61,18 +46,29 @@ export const columns: ColumnDef<Claim>[] = [
     header: "Status",
     cell: ({ row }) => {
       const status = row.original.status;
-      const style = STATUS_STYLES[status];
-      return (
-        <Badge variant={style.variant} className={style.className}>
-          {STATUS_LABELS[status]}
-        </Badge>
-      );
+      return <StatusBadge status={status} />;
     },
   },
   {
     accessorKey: "ai_score",
     header: "AI Score",
-    // TODO: Add circle style
+    // TODO: Use a better bar component for the score
+    cell: ({ row }) => {
+      const score = row.original.ai_score;
+      return (
+        <div className="flex items-center gap-2">
+          {score ? (
+            <Progress value={score * 100} />
+          ) : (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span className="text-muted-foreground">Pending</span>
+            </>
+          )}
+          {score && `${score * 100}%`}
+        </div>
+      );
+    },
   },
   {
     id: "actions",
@@ -92,11 +88,11 @@ export const columns: ColumnDef<Claim>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(claim.id)}
             >
-              Copy claim ID
+              Copy Claim ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View claim</DropdownMenuItem>
-            <DropdownMenuItem>Generate report</DropdownMenuItem>
+            <DropdownMenuItem>View Claim</DropdownMenuItem>
+            <DropdownMenuItem>Generate Report</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
