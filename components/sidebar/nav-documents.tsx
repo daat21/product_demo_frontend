@@ -26,8 +26,9 @@ import {
 } from "@/components/ui/sidebar";
 
 export function NavDocuments({
-  projects,
+  projects, label
 }: {
+  label: string;
   projects: {
     name: string;
     url: string;
@@ -38,7 +39,7 @@ export function NavDocuments({
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Projects</SidebarGroupLabel>
+      <SidebarGroupLabel>{label}</SidebarGroupLabel>
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
@@ -77,12 +78,12 @@ export function NavDocuments({
             </DropdownMenu>
           </SidebarMenuItem>
         ))}
-        <SidebarMenuItem>
-          <SidebarMenuButton>
-            <MoreHorizontal />
-            <span>More</span>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
+        {/*<SidebarMenuItem>*/}
+        {/*  <SidebarMenuButton>*/}
+        {/*    <MoreHorizontal />*/}
+        {/*    <span>More</span>*/}
+        {/*  </SidebarMenuButton>*/}
+        {/*</SidebarMenuItem>*/}
       </SidebarMenu>
     </SidebarGroup>
   );

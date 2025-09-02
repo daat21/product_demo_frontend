@@ -19,6 +19,7 @@ import {
   CircleQuestionMark,
   Database,
   ClipboardPlus,
+  Users,
 } from "lucide-react";
 import { NavUser } from "./nav-user";
 import { NavMain } from "./nav-main";
@@ -79,6 +80,18 @@ const data = {
       icon: ClipboardPlus,
     },
   ],
+  navManager:[
+    {
+      name: "Cases",
+      url: "/cases",
+      icon: SquareChartGantt,
+    },
+    {
+      name: "Investigators",
+      url: "/investigators",
+      icon: Users,
+    },
+  ]
 };
 
 export function AppSidebar() {
@@ -102,7 +115,8 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments projects={data.navDocuments} />
+        <NavDocuments projects={data.navManager} label="Manager"/>
+        <NavDocuments projects={data.navDocuments} label="Projects"/>
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
