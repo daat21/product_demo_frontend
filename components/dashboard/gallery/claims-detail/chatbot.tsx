@@ -93,7 +93,7 @@ export function ClaimsDetailChatbot() {
 
   return (
     <>
-      <Card className="mx-auto">
+      <Card className="w-full">
         <CardHeader className="flex flex-row items-center">
           <div className="flex items-center space-x-4">
             <div>
