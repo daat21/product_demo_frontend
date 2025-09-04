@@ -1,10 +1,10 @@
 "use client"
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { clsx } from "clsx";
 import { useState } from "react";
+import { Status, StatusBadge } from "@/components/dashboard/status-badge";
 
 
 const investigators = [
@@ -76,10 +76,10 @@ export function InvestigatorsTable() {
               </TableCell>
               <TableCell className="h-12 text-center">
                 <div className="flex flex-col items-center justify-center gap-1">
-                  <Badge className={item.status.toLowerCase() === "available" ? "bg-green-100 text-green-700"
-                    : item.status.toLowerCase() === "terminated" ? "bg-red-100 text-red-700"
-                      : item.status.toLowerCase() === "sick leave" ? "bg-yellow-100 text-yellow-700"
-                        : "bg-gray-100 text-gray-700"}>{item.status}</Badge>
+                  <StatusBadge status={item.status.toLowerCase() === "available" ? "green" as Status:
+                    item.status.toLowerCase() === "terminated" ? "red" as Status:
+                      item.status.toLowerCase() === "sick leave" ? "yellow" as Status: "todo" as Status}
+                               content={item.status}/>
                 </div>
               </TableCell>
             </TableRow>
