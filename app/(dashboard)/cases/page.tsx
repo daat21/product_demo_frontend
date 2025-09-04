@@ -31,7 +31,9 @@ export default function Page() {
           <div className="flex-2 flex flex-col gap-6">
             <div>
               <h2 className="mb-4 text-xl font-semibold tracking-tight">
-                Next Suggested Steps
+                <Link href="/cases/nextsteps">
+                  Next Suggested Steps
+                </Link>
               </h2>
               <NextSteps/>
             </div>

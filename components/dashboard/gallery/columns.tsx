@@ -5,7 +5,7 @@ import { Loader2, MoreHorizontal } from "lucide-react";
 
 import {
   StatusBadge,
-  type ClaimStatus,
+  type Status,
 } from "@/components/dashboard/status-badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +21,7 @@ import { Progress } from "@/components/ui/progress";
 export type Claim = {
   id: string;
   title: string;
-  status: ClaimStatus; // TODO
+  status: Status; // TODO
   ai_score: number | null;
   date: string;
   // TODO: Add DATE

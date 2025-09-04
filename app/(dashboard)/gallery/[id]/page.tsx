@@ -1,4 +1,4 @@
-import { type ClaimStatus } from "@/components/dashboard/status-badge";
+import { type Status } from "@/components/dashboard/status-badge";
 import { ClaimsDetailHeader } from "@/components/dashboard/gallery/claims-detail/header";
 import { ClaimsDetailAnalysisResult } from "@/components/dashboard/gallery/claims-detail/analysis-result";
 import { ClaimsDetailDocuments } from "@/components/dashboard/gallery/claims-detail/documents";
@@ -9,7 +9,7 @@ const claims: {
   id: string;
   date: string;
   title: string;
-  status: ClaimStatus;
+  status: Status;
   ai_score: number;
   consistency: number;
   overall_manipulation_score: number;

@@ -12,148 +12,148 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { clsx } from "clsx";
-import { Badge } from "@/components/ui/badge";
+import { Status, StatusBadge } from "@/components/dashboard/status-badge";
 
 
 const claimsQueue = [
   {
     claimId: "CLM-10234",
-    status: "New",
+    status: "new",
     risk: 91,
   },
   {
     claimId: "CLM-10235",
-    status: "New",
+    status: "new",
     risk: 87,
   },
   {
     claimId: "CLM-10236",
-    status: "New",
+    status: "new",
     risk: 41,
   },
   {
     claimId: "CLM-10237",
-    status: "New",
+    status: "new",
     risk: 34,
   },
   {
     claimId: "CLM-10238",
-    status: "New",
+    status: "new",
     risk: 1,
   },
   {
     claimId: "CLM-10239",
-    status: "New",
+    status: "new",
     risk: 2,
   },
   {
     claimId: "CLM-10240",
-    status: "New",
+    status: "new",
     risk: 81,
   },
   {
     claimId: "CLM-10334",
-    status: "New",
+    status: "new",
     risk: 91,
   },
   {
     claimId: "CLM-10335",
-    status: "New",
+    status: "new",
     risk: 87,
   },
   {
     claimId: "CLM-10336",
-    status: "New",
+    status: "new",
     risk: 45,
   },
   {
     claimId: "CLM-10337",
-    status: "New",
+    status: "new",
     risk: 84,
   },
   {
     claimId: "CLM-10338",
-    status: "New",
+    status: "new",
     risk: 1,
   },
   {
     claimId: "CLM-10339",
-    status: "New",
+    status: "new",
     risk: 2,
   },
   {
     claimId: "CLM-10340",
-    status: "New",
+    status: "new",
     risk: 34,
   },
   {
     claimId: "CLM-10234",
-    status: "New",
+    status: "new",
     risk: 91,
   },
   {
     claimId: "CLM-10235",
-    status: "New",
+    status: "new",
     risk: 87,
   },
   {
     claimId: "CLM-10236",
-    status: "New",
+    status: "new",
     risk: 4,
   },
   {
     claimId: "CLM-10237",
-    status: "New",
+    status: "new",
     risk: 84,
   },
   {
     claimId: "CLM-10238",
-    status: "New",
+    status: "new",
     risk: 1,
   },
   {
     claimId: "CLM-10239",
-    status: "New",
+    status: "new",
     risk: 2,
   },
   {
     claimId: "CLM-10240",
-    status: "New",
+    status: "new",
     risk: 81,
   },
   {
     claimId: "CLM-10334",
-    status: "New",
+    status: "new",
     risk: 91,
   },
   {
     claimId: "CLM-10335",
-    status: "New",
+    status: "new",
     risk: 87,
   },
   {
     claimId: "CLM-10336",
-    status: "New",
+    status: "new",
     risk: 4,
   },
   {
     claimId: "CLM-10337",
-    status: "New",
+    status: "new",
     risk: 84,
   },
   {
     claimId: "CLM-10338",
-    status: "New",
+    status: "new",
     risk: 1,
   },
   {
     claimId: "CLM-10339",
-    status: "New",
+    status: "new",
     risk: 2,
   },
   {
     claimId: "CLM-10340",
-    status: "New",
+    status: "new",
     risk: 81,
   },
 ];
@@ -219,17 +219,17 @@ const claimsHistory = [
   {
     claimId: "CLM-10234",
     Investigator: "Xiao",
-    status: "Finalized",
+    status: "finalized",
   },
   {
     claimId: "CLM-10235",
     Investigator: "Angus",
-    status: "Finalized",
+    status: "finalized",
   },
   {
     claimId: "CLM-10236",
     Investigator: "Daming",
-    status: "Finalized",
+    status: "finalized",
   },
 ];
 
@@ -259,14 +259,14 @@ export function ClaimsQueueTable() {
                   {invoice.claimId}
                 </TableCell>
                 <TableCell className="h-12 text-center">
-                  <Badge className="bg-blue-100 text-blue-700">{invoice.status}</Badge>
+                  <StatusBadge status={invoice.status as Status}/>
                 </TableCell>
                 <TableCell className="h-12 items-center text-center">
                   {invoice.risk > 60
-                    ? <Badge className="bg-red-100 text-red-700">High</Badge>
+                    ? <StatusBadge status="high"/>
                     : invoice.risk < 20
-                      ? <Badge className="bg-green-100 text-green-700">Low</Badge>
-                      : <Badge className="bg-yellow-100 text-yellow-700">Medium</Badge>}
+                      ? <StatusBadge status="low"/>
+                      : <StatusBadge status="medium"/>}
                 </TableCell>
               </TableRow>
             ))}
@@ -274,7 +274,6 @@ export function ClaimsQueueTable() {
         </Table>
       </div>
 
-      {/* Pagination */}
       <div className="flex justify-center mt-4 gap-2">
         <Button
           variant="outline"
@@ -312,7 +311,6 @@ export function ClaimsQueueTable() {
         </Button>
       </div>
     </div>
-    // </div>
   );
 }
 
@@ -346,10 +344,10 @@ export function ClaimsProcessingTable() {
               </TableCell>
               <TableCell className="h-12 items-center text-center">
                 {invoice.risk > 60
-                  ? <Badge className="bg-red-100 text-red-700">High</Badge>
+                  ? <StatusBadge status="high"/>
                   : invoice.risk < 20
-                    ? <Badge className="bg-green-100 text-green-700">Low</Badge>
-                    : <Badge className="bg-yellow-100 text-yellow-700">Medium</Badge>}
+                    ? <StatusBadge status="low"/>
+                    : <StatusBadge status="medium"/>}
               </TableCell>
               <TableCell className="h-12 text-center">
                 <div className="flex flex-col items-center justify-center gap-1">
@@ -420,9 +418,7 @@ export function ClaimsHistoryTable() {
                 {item.Investigator}
               </TableCell>
               <TableCell className="h-12 text-center">
-                <div className="flex flex-col items-center justify-center gap-1">
-                  <Badge className="bg-green-500 text-white">{item.status}</Badge>
-                </div>
+                <StatusBadge status={item.status as Status}/>
               </TableCell>
             </TableRow>
           ))}

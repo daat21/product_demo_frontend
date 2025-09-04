@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { StatusBadge } from "@/components/dashboard/status-badge";
 
 export function Cards() {
   return (
@@ -20,10 +21,12 @@ export function Cards() {
             524
           </CardTitle>
           <CardAction>
-            <Badge className="bg-green-100 text-green-700 border-green-200">
-              <TrendingUp className="text-green-700" />
-              +12.5%
-            </Badge>
+            <StatusBadge status="green" content={
+              <div className="flex gap-1">
+                <TrendingUp className="h-4 w-4 text-green-700" />
+                <p>+12.5%</p>
+              </div>
+            } />
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
@@ -39,10 +42,12 @@ export function Cards() {
             134
           </CardTitle>
           <CardAction>
-            <Badge className="bg-red-100 text-red-700 border-red-200">
-              <TrendingDown className="text-red-700" />
-              -0.1%
-            </Badge>
+            <StatusBadge status="red" content={
+              <div className="flex gap-1">
+                <TrendingDown className="h-4 w-4 text-red-700" />
+                <p>-1.1%</p>
+              </div>
+            } />
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
@@ -58,10 +63,12 @@ export function Cards() {
             38
           </CardTitle>
           <CardAction>
-            <Badge className="bg-green-100 text-green-700 border-green-200">
-              <TrendingUp className="text-green-700" />
-              +12.5%
-            </Badge>
+            <StatusBadge status="green" content={
+              <div className="flex gap-1">
+                <TrendingUp className="h-4 w-4 text-green-700" />
+                <p>+13.3%</p>
+              </div>
+            } />
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
@@ -77,10 +84,12 @@ export function Cards() {
             42 min
           </CardTitle>
           <CardAction>
-            <Badge className="bg-green-100 text-green-700 border-green-200">
-              <TrendingUp className="text-green-700" />
-              +0.1%
-            </Badge>
+            <StatusBadge status="green" content={
+              <div className="flex gap-1">
+                <TrendingUp className="h-4 w-4 text-green-700" />
+                <p>+0.1%</p>
+              </div>
+            } />
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">

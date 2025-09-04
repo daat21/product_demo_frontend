@@ -1,5 +1,5 @@
 import { CalendarIcon } from "lucide-react";
-import { ClaimStatus, StatusBadge } from "@/components/dashboard/status-badge";
+import { Status, StatusBadge } from "@/components/dashboard/status-badge";
 
 export function ClaimsDetailHeader({
   title,
@@ -7,7 +7,7 @@ export function ClaimsDetailHeader({
   date,
 }: {
   title: string;
-  status: ClaimStatus;
+  status: Status;
   date: string;
 }) {
   return (
