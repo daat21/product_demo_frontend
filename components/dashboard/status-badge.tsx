@@ -2,7 +2,19 @@
 
 import { Badge } from "@/components/ui/badge";
 
-export type Status = "todo" | "in progress" | "done" | "high" | "medium" | "low" | "new" | "finalized" | "green" | "yellow" | "red" | "blue";
+export type Status =
+  "todo"
+  | "in progress"
+  | "done"
+  | "high"
+  | "medium"
+  | "low"
+  | "new"
+  | "finalized"
+  | "green"
+  | "yellow"
+  | "red"
+  | "blue";
 
 const STATUS_LABELS: Record<Status, string> = {
   todo: "To-do",
