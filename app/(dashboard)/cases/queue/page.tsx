@@ -1,5 +1,6 @@
-import { ClaimsQueueTable } from "@/components/dashboard/cases/data-table";
-import { Input } from "@/components/ui/input";
+import { columns } from "@/components/dashboard/cases/columns";
+import { ClaimsTable } from "@/components/dashboard/cases/claims-table";
+import { casesData } from "@/components/dashboard/cases/mock-data";
 
 export default function Page() {
   return <>
@@ -7,8 +8,7 @@ export default function Page() {
       <h1 className="mb-4 text-xl font-semibold tracking-tight">
         Cases Queue
       </h1>
-      <Input placeholder="Search..." className="h-8 w-[150px] lg:w-[250px]" />
-      <ClaimsQueueTable/>
+      <ClaimsTable columns={columns} data={casesData} enableToolbar={true} enableActions={true}/>
     </div>
   </>
 }

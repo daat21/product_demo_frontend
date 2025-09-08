@@ -21,14 +21,6 @@ export function Cards() {
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             524
           </CardTitle>
-          <CardAction>
-            <StatusBadge status="green" content={
-              <div className="flex gap-1">
-                <TrendingUp className="h-4 w-4 text-green-700" />
-                <p>+12.5%</p>
-              </div>
-            } />
-          </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
@@ -42,14 +34,6 @@ export function Cards() {
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             134
           </CardTitle>
-          <CardAction>
-            <StatusBadge status="red" content={
-              <div className="flex gap-1">
-                <TrendingDown className="h-4 w-4 text-red-700" />
-                <p>-1.1%</p>
-              </div>
-            } />
-          </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
@@ -63,14 +47,6 @@ export function Cards() {
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             38
           </CardTitle>
-          <CardAction>
-            <StatusBadge status="green" content={
-              <div className="flex gap-1">
-                <TrendingUp className="h-4 w-4 text-green-700" />
-                <p>+13.3%</p>
-              </div>
-            } />
-          </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
@@ -84,14 +60,6 @@ export function Cards() {
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             42 min
           </CardTitle>
-          <CardAction>
-            <StatusBadge status="green" content={
-              <div className="flex gap-1">
-                <TrendingUp className="h-4 w-4 text-green-700" />
-                <p>+0.1%</p>
-              </div>
-            } />
-          </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">

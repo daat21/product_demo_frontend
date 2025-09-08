@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { clsx } from "clsx";
 import { Status, StatusBadge } from "@/components/dashboard/status-badge";
+import { casesData } from "@/components/dashboard/cases/mock-data";
 
 
 const claimsQueue = [
@@ -158,62 +159,6 @@ const claimsQueue = [
   },
 ];
 
-const claimsProcessing = [
-  {
-    claimId: "CLM-10234",
-    Investigator: "Domma",
-    risk: 81,
-    progress: 91,
-  },
-  {
-    claimId: "CLM-10235",
-    Investigator: "Bill",
-    risk: 23,
-    progress: 87,
-  },
-  {
-    claimId: "CLM-10236",
-    Investigator: "Dickens",
-    risk: 45,
-    progress: 86,
-  },
-  {
-    claimId: "CLM-10237",
-    Investigator: "Billy",
-    risk: 12,
-    progress: 91,
-  },
-  {
-    claimId: "CLM-10d35",
-    Investigator: "Shiva",
-    risk: 81,
-    progress: 87,
-  },
-  {
-    claimId: "CLM-102f6",
-    Investigator: "Daming",
-    risk: 99,
-    progress: 86,
-  },
-  {
-    claimId: "CLM-1g234",
-    Investigator: "Xiao",
-    risk: 98,
-    progress: 91,
-  },
-  {
-    claimId: "CLM-102h5",
-    Investigator: "Angus",
-    risk: 99,
-    progress: 87,
-  },
-  {
-    claimId: "CLM-10t36",
-    Investigator: "Daming",
-    risk: 98,
-    progress: 86,
-  },
-];
 
 const claimsHistory = [
   {
@@ -318,9 +263,9 @@ export function ClaimsProcessingTable() {
   const PAGE_SIZE = 5;
   const [page, setPage] = useState(1);
 
-  const totalPages = Math.ceil(claimsProcessing.length / PAGE_SIZE);
+  const totalPages = Math.ceil(casesData.length / PAGE_SIZE);
   const startIndex = (page - 1) * PAGE_SIZE;
-  const currentData = claimsProcessing.slice(startIndex, startIndex + PAGE_SIZE);
+  const currentData = casesData.slice(startIndex, startIndex + PAGE_SIZE);
 
   return <div>
     <div className="overflow-hidden rounded-lg border min-h-72">
@@ -340,7 +285,7 @@ export function ClaimsProcessingTable() {
                 {invoice.claimId}
               </TableCell>
               <TableCell className="h-12 text-center">
-                {invoice.Investigator}
+                {invoice.investigator}
               </TableCell>
               <TableCell className="h-12 items-center text-center">
                 {invoice.risk > 60

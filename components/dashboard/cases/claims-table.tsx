@@ -5,31 +5,46 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { DataTableToolbar } from "@/components/dashboard/gallery/data-table-toolbar";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useState } from "react";
 
 
-// Data contains claimId: string for sure
-interface DataTableProps<TData extends { claimId: string }, TValue> {
+// Data contains claimId and status: string for sure
+interface DataTableProps<TData extends { claimId: string, status: string }, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   enableActions?: boolean;
   enableToolbar?: boolean;
   enableInvestigator?: boolean;
   enableProgress?: boolean;
+  filterProcessingOnly?: boolean,
+  pageSize?: number;
 }
 
 // Where the table forms, and pagination is added.
-export function QueuingClaimsTable<TData extends { claimId: string }, TValue>({
+export function ClaimsTable<TData extends { claimId: string, status: string }, TValue>({
   columns,
   data,
   enableActions = false,
   enableToolbar = false,
   enableInvestigator = false,
   enableProgress = false,
+  filterProcessingOnly = false,
+  pageSize = 10,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
+
+  const filteredData: TData[] = filterProcessingOnly
+    ? data.filter((row) => row.status === "processing")
+    : data;
+
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: pageSize,
+  });
+
   const table = useReactTable({
-    data,
-    columns,
+    data: filteredData,
+    columns: columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     state: {
@@ -38,7 +53,9 @@ export function QueuingClaimsTable<TData extends { claimId: string }, TValue>({
         progress: enableProgress,           // child column
         actions: enableActions,             // actions column
       },
+      pagination,
     },
+    onPaginationChange: setPagination,
   });
 
   return (
@@ -48,22 +65,22 @@ export function QueuingClaimsTable<TData extends { claimId: string }, TValue>({
         <Table>
           <TableHeader>
             {
-              table.getHeaderGroups().map((headerGroup) => {
-                return <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                      </TableHead>
-                    );
-                  })}
-                </TableRow>
-              })}
+              table.getHeaderGroups().map((headerGroup) =>
+                (<TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <TableHead key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                        </TableHead>
+                      );
+                    })}
+                  </TableRow>
+                ))}
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
@@ -88,7 +105,7 @@ export function QueuingClaimsTable<TData extends { claimId: string }, TValue>({
                   {/*rendering cells*/}
                   {/*inside jsx*/}
                   {row.getVisibleCells().map((cell) => {
-                    return <TableCell key={cell.id}>
+                    return <TableCell className="h-12" key={cell.id}>
                       {
                         flexRender(
                           cell.column.columnDef.cell,

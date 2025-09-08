@@ -1,5 +1,3 @@
-import { ClaimsQueueTable } from "@/components/dashboard/cases/data-table";
-import { Input } from "@/components/ui/input";
 import { NextStepTable } from "@/components/dashboard/cases/nextsteps/next-steps";
 
 export default function Page() {
@@ -8,7 +6,7 @@ export default function Page() {
       <h1 className="mb-4 text-xl font-semibold tracking-tight">
         Next Suggested Steps
       </h1>
-      <NextStepTable/>
+      <NextStepTable enableDetails={true}/>
     </div>
   </>
 }

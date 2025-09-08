@@ -1,7 +1,10 @@
-import { ClaimsHistoryTable, ClaimsProcessingTable, ClaimsQueueTable } from "@/components/dashboard/cases/data-table";
+import { ClaimsHistoryTable } from "@/components/dashboard/cases/data-table";
 import { Cards } from "@/components/dashboard/cases/cards";
-import { NextSteps } from "@/components/dashboard/cases/next-steps";
 import Link from "next/link";
+import { ClaimsTable } from "@/components/dashboard/cases/claims-table";
+import { columns } from "@/components/dashboard/cases/columns";
+import { casesData } from "@/components/dashboard/cases/mock-data";
+import { NextStepTable } from "@/components/dashboard/cases/nextsteps/next-steps";
 
 export default function Page() {
   return (
@@ -26,22 +29,31 @@ export default function Page() {
                 Queuing Cases
               </Link>
             </h2>
-            <ClaimsQueueTable/>
+            <ClaimsTable columns={columns} data={casesData} pageSize={15}/>
+            {/*<ClaimsQueueTable/>*/}
           </div>
-          <div className="flex-2 flex flex-col gap-6">
+          <div className="flex-2 flex flex-col">
             <div>
               <h2 className="mb-4 text-xl font-semibold tracking-tight">
                 <Link href="/cases/nextsteps">
                   Next Suggested Steps
                 </Link>
               </h2>
-              <NextSteps/>
+              <NextStepTable enableDetails={false}/>
             </div>
             <div>
               <h2 className="mb-4 text-xl font-semibold tracking-tight">
                 Processing Cases
               </h2>
-              <ClaimsProcessingTable/>
+              {/*Claims processing table*/}
+              <ClaimsTable
+                columns={columns}
+                data={casesData}
+                enableInvestigator={true}
+                enableProgress={true}
+                filterProcessingOnly={true}
+                pageSize={8}
+              />
             </div>
           </div>
         </div>
