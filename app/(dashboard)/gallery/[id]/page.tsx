@@ -4,6 +4,7 @@ import { ClaimsDetailAnalysisResult } from "@/components/dashboard/gallery/claim
 import { ClaimsDetailDocuments } from "@/components/dashboard/gallery/claims-detail/documents";
 import { ClaimsDetailChatbot } from "@/components/dashboard/gallery/claims-detail/chatbot";
 import { ClaimsDetailNarrative } from "@/components/dashboard/gallery/claims-detail/narrative";
+import { getClaimImagesById } from "@/lib/gallery/getClaimImagesById";
 
 const claims: {
   id: string;
@@ -43,7 +44,18 @@ const claims: {
     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
 };
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const claimImages = await getClaimImagesById(id);
+  const documents = Array.isArray(claimImages)
+    ? claimImages.map((img: { previewUrl: string }) => img.previewUrl)
+    : [];
+  console.log(claimImages);
+
   return (
     <div className="flex flex-col gap-8 px-8 lg:px-8">
       <ClaimsDetailHeader
@@ -58,7 +70,7 @@ export default function Page() {
         overall_manipulation_score={claims.overall_manipulation_score}
       />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto w-full">
-        <ClaimsDetailDocuments documents={claims.documents} />
+        <ClaimsDetailDocuments documents={documents} />
         <ClaimsDetailNarrative narrative={claims.narrative} />
         <ClaimsDetailChatbot />
       </div>

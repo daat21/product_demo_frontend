@@ -29,9 +29,9 @@ import Link from "next/link";
 
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "https://github.com/shadcn.png",
+    name: "Angus Williamson",
+    email: "angus@spotfake.ai",
+    avatar: "/profile.png",
   },
   navMain: [
     {
@@ -80,7 +80,7 @@ const data = {
       icon: ClipboardPlus,
     },
   ],
-  navManager:[
+  navManager: [
     {
       name: "Cases",
       url: "/cases",
@@ -91,10 +91,18 @@ const data = {
       url: "/investigators",
       icon: Users,
     },
-  ]
+  ],
 };
 
-export function AppSidebar() {
+export function AppSidebar({
+  user,
+}: {
+  user: {
+    name: string;
+    email: string;
+    avatar: string;
+  };
+}) {
   return (
     <Sidebar>
       <SidebarHeader>
@@ -115,12 +123,12 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments projects={data.navManager} label="Manager"/>
-        <NavDocuments projects={data.navDocuments} label="Projects"/>
+        <NavDocuments projects={data.navManager} label="Manager" />
+        <NavDocuments projects={data.navDocuments} label="Projects" />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>
   );

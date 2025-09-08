@@ -3,10 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Loader2, MoreHorizontal } from "lucide-react";
 
-import {
-  StatusBadge,
-  type Status,
-} from "@/components/dashboard/status-badge";
+import { StatusBadge, type Status } from "@/components/dashboard/status-badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -22,20 +19,35 @@ export type Claim = {
   id: string;
   title: string;
   status: Status; // TODO
-  ai_score: number | null;
-  date: string;
-  // TODO: Add DATE
+  risk_score: number | null;
+  created_at: string;
+  date?: string;
 };
 
 export const columns: ColumnDef<Claim>[] = [
   {
     accessorKey: "id",
     header: "ID",
-    // cell: ({ row }) => <div className="w-[40px]">{row.getValue("id")}</div>,
+    cell: ({ row }) => {
+      const id = row.original.id;
+      return <div>{id.slice(0, 8).toUpperCase()}</div>;
+    },
   },
   {
     accessorKey: "date",
     header: "Date",
+    cell: ({ row }) => {
+      const iso = row.original.created_at || (row.getValue("date") as string);
+      const date = new Date(iso);
+      if (Number.isNaN(date.getTime())) return "-";
+      return date.toLocaleString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    },
   },
   {
     accessorKey: "title",
@@ -54,7 +66,7 @@ export const columns: ColumnDef<Claim>[] = [
     header: "AI Score",
     // TODO: Use a better bar component for the score
     cell: ({ row }) => {
-      const score = row.original.ai_score;
+      const score = row.original.risk_score;
       return (
         <div className="flex items-center gap-2">
           {score ? (

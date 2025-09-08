@@ -39,8 +39,14 @@ export function ClaimsDetailDocuments({ documents }: { documents: string[] }) {
     const current = documents[viewerIndex];
     if (!current) return;
     const link = document.createElement("a");
-    link.href = `/${current}`;
-    link.download = current;
+    link.href = current;
+    try {
+      const url = new URL(current);
+      const pathname = url.pathname.split("/").pop() || "image";
+      link.download = pathname;
+    } catch {
+      link.download = "image";
+    }
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -61,7 +67,7 @@ export function ClaimsDetailDocuments({ documents }: { documents: string[] }) {
                     aria-label="Open fullscreen"
                   >
                     <Image
-                      src={`/${document}`}
+                      src={document}
                       alt={`Document ${index + 1}`}
                       fill
                       sizes="(min-width: 1024px) 33vw, 100vw"
@@ -93,7 +99,7 @@ export function ClaimsDetailDocuments({ documents }: { documents: string[] }) {
                     <CarouselItem key={index} className="h-full">
                       <div className="relative w-full h-[100vh] bg-black/95">
                         <Image
-                          src={`/${document}`}
+                          src={document}
                           alt={`Document ${index + 1}`}
                           fill
                           sizes="100vw"

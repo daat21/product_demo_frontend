@@ -1,95 +1,98 @@
 import { DataTable } from "@/components/dashboard/gallery/data-table";
 import { columns, Claim } from "@/components/dashboard/gallery/columns";
+import { getClaimsList } from "@/lib/gallery/getClaimsList";
 
 const data: Claim[] = [
   {
     id: "CLM-00001",
-    date: "2025-01-01",
+    created_at: "2025-01-01",
     title: "Test Claim 1",
     status: "in progress",
-    ai_score: null,
+    risk_score: null,
   },
   {
     id: "CLM-00002",
-    date: "2025-01-02",
+    created_at: "2025-01-02",
     title: "Test Claim 2",
     status: "done",
-    ai_score: 0.9,
+    risk_score: 0.9,
   },
   {
     id: "CLM-00003",
-    date: "2025-01-03",
+    created_at: "2025-01-03",
     title: "Test Claim 3",
     status: "done",
-    ai_score: 0.8,
+    risk_score: 0.8,
   },
   {
     id: "CLM-00004",
-    date: "2025-01-04",
+    created_at: "2025-01-04",
     title: "Test Claim 4",
     status: "done",
-    ai_score: 0.7,
+    risk_score: 0.7,
   },
 
   {
     id: "CLM-00005",
-    date: "2025-01-05",
+    created_at: "2025-01-05",
     title: "Test Claim 5",
     status: "done",
-    ai_score: 0.6,
+    risk_score: 0.6,
   },
   {
     id: "CLM-00006",
-    date: "2025-01-06",
+    created_at: "2025-01-06",
     title: "Test Claim 6",
     status: "done",
-    ai_score: 0.5,
+    risk_score: 0.5,
   },
   {
     id: "CLM-00007",
-    date: "2025-01-07",
+    created_at: "2025-01-07",
     title: "Test Claim 7",
     status: "done",
-    ai_score: 0.4,
+    risk_score: 0.4,
   },
   {
     id: "CLM-00008",
-    date: "2025-01-08",
+    created_at: "2025-01-08",
     title: "Test Claim 8",
     status: "done",
-    ai_score: 0.3,
+    risk_score: 0.3,
   },
   {
     id: "CLM-00009",
-    date: "2025-01-09",
+    created_at: "2025-01-09",
     title: "Test Claim 9",
     status: "done",
-    ai_score: 0.2,
+    risk_score: 0.2,
   },
   {
     id: "CLM-00010",
-    date: "2025-01-10",
+    created_at: "2025-01-10",
     title: "Test Claim 10",
     status: "done",
-    ai_score: 0.1,
+    risk_score: 0.1,
   },
   {
     id: "CLM-00011",
-    date: "2025-01-11",
+    created_at: "2025-01-11",
     title: "Test Claim 11",
     status: "done",
-    ai_score: 0.1,
+    risk_score: 0.1,
   },
   {
     id: "CLM-00012",
-    date: "2025-01-12",
+    created_at: "2025-01-12",
     title: "Test Claim 12",
     status: "done",
-    ai_score: 0.1,
+    risk_score: 0.1,
   },
 ];
 
-export default function Page() {
+export default async function Page() {
+  const claims: Claim[] = (await getClaimsList()) ?? [];
+
   return (
     <div className="hidden h-full flex-1 flex-col gap-8 px-8 md:flex">
       <div className="flex items-center justify-between gap-2">
@@ -102,7 +105,7 @@ export default function Page() {
           </p>
         </div>
       </div>
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={claims} />
     </div>
   );
 }
