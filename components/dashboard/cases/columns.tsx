@@ -1,11 +1,10 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Loader2, MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 
 import {
   StatusBadge,
-  type Status,
 } from "@/components/dashboard/status-badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,13 +14,28 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
-import { Case } from "@/components/dashboard/cases/mock-data";
+
+export type Case = {
+  id: string;
+  title: string;
+  description: string;
+  status: string;
+  risk_score: number;
+  progress: number;
+  created_at: string;
+  username: string;
+  investigator: string;
+};
 
 export const columns: ColumnDef<Case>[] = [
   {
-    accessorKey: "claimId",
+    accessorKey: "id",
     header: "Case ID",
-    id: "claimId",
+    id: "id",
+    cell: ({ row }) => {
+      const id = row.original.id;
+      return <div>CLM-{id.slice(0, 5).toUpperCase()}</div>;
+    },
   },
   {
     accessorKey: "status",
@@ -33,20 +47,20 @@ export const columns: ColumnDef<Case>[] = [
     },
   },
   {
-    accessorKey: "risk",
+    accessorKey: "risk_score",
     header: "Risk Level",
     cell: ({ row }) => {
-      const risk = row.original.risk;
+      const risk = row.original.risk_score;
       return risk > 80 ? <StatusBadge status="red" content="High"/> :
         risk < 20 ? <StatusBadge status="green" content="Low"/> :
           <StatusBadge status="yellow" content="Medium"/>;
     }
   },
   {
-    accessorKey: "investigator",
+    accessorKey: "username",
     header: "Investigator",
     cell: ({ row }) => {
-      const investigator = row.original.investigator;
+      const investigator = row.original.username;
       return <span>{investigator}</span>
     }
   },

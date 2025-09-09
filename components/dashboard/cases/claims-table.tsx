@@ -9,7 +9,7 @@ import { useState } from "react";
 
 
 // Data contains claimId and status: string for sure
-interface DataTableProps<TData extends { claimId: string, status: string }, TValue> {
+interface DataTableProps<TData extends { id: string, status: string }, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   enableActions?: boolean;
@@ -21,7 +21,7 @@ interface DataTableProps<TData extends { claimId: string, status: string }, TVal
 }
 
 // Where the table forms, and pagination is added.
-export function ClaimsTable<TData extends { claimId: string, status: string }, TValue>({
+export function ClaimsTable<TData extends { id: string, status: string }, TValue>({
   columns,
   data,
   enableActions = false,
@@ -34,7 +34,7 @@ export function ClaimsTable<TData extends { claimId: string, status: string }, T
   const router = useRouter();
 
   const filteredData: TData[] = filterProcessingOnly
-    ? data.filter((row) => row.status === "processing")
+    ? data.filter((row) => row.status === "In Progress")
     : data;
 
   const [pagination, setPagination] = useState({
@@ -99,7 +99,7 @@ export function ClaimsTable<TData extends { claimId: string, status: string }, T
                     ) {
                       return;
                     }
-                    router.push(`/gallery/${row.original.claimId}`);
+                    router.push(`/gallery/${row.original.id}`);
                   }}
                 >
                   {/*rendering cells*/}

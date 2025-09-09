@@ -1,12 +1,30 @@
+"use client"
+
 import { ClaimsHistoryTable } from "@/components/dashboard/cases/data-table";
 import { Cards } from "@/components/dashboard/cases/cards";
 import Link from "next/link";
 import { ClaimsTable } from "@/components/dashboard/cases/claims-table";
-import { columns } from "@/components/dashboard/cases/columns";
-import { casesData } from "@/components/dashboard/cases/mock-data";
+import { Case, columns } from "@/components/dashboard/cases/columns";
 import { NextStepTable } from "@/components/dashboard/cases/nextsteps/next-steps";
+import { useEffect, useState } from "react";
+import { getAllCasesList } from "@/lib/cases/getAllCases";
 
 export default function Page() {
+  const [data, setData] = useState<Case[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      const res = await getAllCasesList();
+      if (isMounted) {
+        setData(res ?? []);
+      }
+    })();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <div>
       <div className="hidden h-full flex-1 flex-col gap-8 px-8 md:flex">
@@ -29,7 +47,7 @@ export default function Page() {
                 Queuing Cases
               </Link>
             </h2>
-            <ClaimsTable columns={columns} data={casesData} pageSize={15}/>
+            <ClaimsTable columns={columns} data={data} pageSize={15}/>
             {/*<ClaimsQueueTable/>*/}
           </div>
           <div className="flex-2 flex flex-col">
@@ -48,7 +66,7 @@ export default function Page() {
               {/*Claims processing table*/}
               <ClaimsTable
                 columns={columns}
-                data={casesData}
+                data={data}
                 enableInvestigator={true}
                 enableProgress={true}
                 filterProcessingOnly={true}
