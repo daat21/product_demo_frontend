@@ -30,6 +30,7 @@ export function ClaimsDetailAnalysisResult({
   const consistencyColor = colorForPercent(consistencyPercent);
   const overallPercent = overall_manipulation_score * 100;
   const overallColor = colorForPercent(overallPercent);
+
   return (
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs @4xl/main:grid-cols-2 ">
       <Card className="@container/card">

@@ -33,7 +33,7 @@ const data = {
   },
   navMain: [
     {
-      title: "Homepage",
+      title: "Home",
       url: "/",
       icon: LayoutDashboard,
       isActive: true,

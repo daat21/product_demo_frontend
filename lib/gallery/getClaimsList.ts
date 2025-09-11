@@ -2,6 +2,10 @@
 
 import { cookies } from "next/headers";
 import type { Status } from "@/components/dashboard/status-badge";
+import {
+  extractViewScoresFromImageRisk,
+  computeOverallAndConsistency,
+} from "@/lib/gallery/score";
 
 type ApiClaim = {
   id: string;
@@ -44,6 +48,11 @@ export const getClaimsList = async () => {
       const riskNormalized =
         riskRaw == null ? null : riskRaw > 1 ? riskRaw / 100 : riskRaw; // 0..1
 
+      const viewScores = extractViewScoresFromImageRisk(
+        (item as unknown as { image_risk?: unknown }).image_risk
+      );
+      const { overall } = computeOverallAndConsistency(viewScores);
+
       return {
         id: item.id,
         title: item.title,
@@ -51,6 +60,7 @@ export const getClaimsList = async () => {
         risk_score: riskNormalized,
         created_at: item.created_at,
         date: item.created_at,
+        overall_manipulation_score: overall,
       };
     })
     .sort(

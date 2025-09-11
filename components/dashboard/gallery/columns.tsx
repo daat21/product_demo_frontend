@@ -17,13 +17,15 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { deleteClaimById } from "@/lib/gallery/deleteClaimById";
 import { toast } from "sonner";
+import * as React from "react";
 import { useRowActions } from "./row-actions-context";
+import { getClaimScoreById } from "@/lib/gallery/getClaimScoreById";
 
 export type Claim = {
   id: string;
   title: string;
   status: Status;
-  risk_score: number | null;
+  overall_manipulation_score: number | null;
   created_at: string;
   date?: string;
 };
@@ -74,32 +76,7 @@ export const columns: ColumnDef<Claim>[] = [
   {
     accessorKey: "ai_score",
     header: "AI Score",
-    cell: ({ row }) => {
-      const score = row.original.risk_score;
-      const status = row.original.status;
-      return (
-        <div className="flex items-center gap-2">
-          {status === "todo" && (
-            <Button variant="outline" size="sm">
-              <GradientSparklesIcon className="h-4 w-4" />
-              Analyze
-            </Button>
-          )}
-          {status === "in progress" && (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" />
-              <span className="text-muted-foreground">Pending</span>
-            </>
-          )}
-          {status === "done" && score && (
-            <>
-              <Progress value={score * 100} />
-              <span>{score * 100}%</span>
-            </>
-          )}
-        </div>
-      );
-    },
+    cell: ({ row }) => <AiScoreCell claim={row.original} />,
   },
   {
     id: "actions",
@@ -151,5 +128,68 @@ function ActionsCell({ claim }: ActionsCellProps) {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+  );
+}
+
+type AiScoreCellProps = { claim: Claim };
+
+function AiScoreCell({ claim }: AiScoreCellProps) {
+  const { refresh } = useRowActions();
+  const [isAnalyzing, setIsAnalyzing] = React.useState(false);
+
+  const score = claim.overall_manipulation_score;
+
+  const handleAnalyze = async () => {
+    try {
+      setIsAnalyzing(true);
+      await getClaimScoreById(claim.id);
+      toast.success(`Claim ${claim.title} Analysis complete`);
+      refresh();
+    } catch {
+      toast.error(`Analyze failed for claim ${claim.title}`);
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  return (
+    <div className="flex items-center gap-2">
+      {score === null && (
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleAnalyze}
+          className="min-w-[120px]"
+          disabled={isAnalyzing}
+        >
+          {isAnalyzing ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Analyzing
+            </>
+          ) : (
+            <>
+              <GradientSparklesIcon className="h-4 w-4" />
+              Analyze
+            </>
+          )}
+        </Button>
+      )}
+      {score !== null &&
+        (() => {
+          const percentNumber = Number((score * 100).toFixed(2));
+          const percentLabel = (score * 100).toFixed(2).replace(/\.?0+$/, "");
+          return (
+            <div className="flex items-center gap-1">
+              <div className="w-30">
+                <Progress value={percentNumber} />
+              </div>
+              <span className="tabular-nums min-w-[42px] text-right">
+                {percentLabel}%
+              </span>
+            </div>
+          );
+        })()}
+    </div>
   );
 }

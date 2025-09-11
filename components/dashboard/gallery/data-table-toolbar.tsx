@@ -51,7 +51,7 @@ export function DataTableToolbar() {
                     you&apos;re done.
                   </DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4">
+                <form className="grid gap-4">
                   <div className="grid gap-3">
                     <Label htmlFor="name-1">Title</Label>
                     <Input id="name-1" name="name" placeholder="Title" />
@@ -66,13 +66,13 @@ export function DataTableToolbar() {
                   </div>
                   <div className="grid gap-3">
                     <Label htmlFor="username-1">Date</Label>
-                    <Calendar28 />
+                    <Calendar28 disabled />
                   </div>
                   <div className="grid gap-3">
                     <Label htmlFor="username-1">Documents</Label>
                     <GalleryImageUploader />
                   </div>
-                </div>
+                </form>
                 <DialogFooter>
                   <DialogClose asChild>
                     <Button variant="outline">Cancel</Button>

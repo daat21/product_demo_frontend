@@ -31,7 +31,7 @@ function isValidDate(date: Date | undefined) {
   return !isNaN(date.getTime());
 }
 
-export function Calendar28() {
+export function Calendar28({ disabled = false }: { disabled?: boolean }) {
   const [open, setOpen] = React.useState(false);
   const today = React.useMemo(() => new Date(), []);
   const [date, setDate] = React.useState<Date | undefined>(today);
@@ -46,6 +46,7 @@ export function Calendar28() {
           value={value}
           placeholder={formatDate(today)}
           className="bg-background pr-10"
+          disabled={disabled}
           onChange={(e) => {
             const date = new Date(e.target.value);
             setValue(e.target.value);
@@ -57,16 +58,20 @@ export function Calendar28() {
           onKeyDown={(e) => {
             if (e.key === "ArrowDown") {
               e.preventDefault();
-              setOpen(true);
+              if (!disabled) setOpen(true);
             }
           }}
         />
-        <Popover open={open} onOpenChange={setOpen}>
+        <Popover
+          open={disabled ? false : open}
+          onOpenChange={disabled ? undefined : setOpen}
+        >
           <PopoverTrigger asChild>
             <Button
               id="date-picker"
               variant="ghost"
               className="absolute top-1/2 right-2 size-6 -translate-y-1/2"
+              disabled={disabled}
             >
               <CalendarIcon className="size-3.5" />
               <span className="sr-only">Select date</span>
@@ -83,10 +88,16 @@ export function Calendar28() {
               selected={date}
               captionLayout="dropdown"
               month={month}
-              onMonthChange={setMonth}
-              onSelect={(date) => {
-                setDate(date);
-                setValue(formatDate(date));
+              onMonthChange={disabled ? undefined : setMonth}
+              disabled={
+                disabled
+                  ? [{ from: new Date(1900, 0, 1), to: new Date(9999, 11, 31) }]
+                  : undefined
+              }
+              onSelect={(d) => {
+                if (disabled) return;
+                setDate(d);
+                setValue(formatDate(d));
                 setOpen(false);
               }}
             />
