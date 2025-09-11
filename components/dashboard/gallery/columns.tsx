@@ -1,7 +1,8 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Loader2, MoreHorizontal } from "lucide-react";
+import { Loader2, MoreHorizontal, Copy, Delete, Flag } from "lucide-react";
+import GradientSparklesIcon from "@/components/ui/gradient-sparkles";
 
 import { StatusBadge, type Status } from "@/components/dashboard/status-badge";
 import { Button } from "@/components/ui/button";
@@ -14,15 +15,30 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
+import { deleteClaimById } from "@/lib/gallery/deleteClaimById";
+import { toast } from "sonner";
+import { useRowActions } from "./row-actions-context";
 
 export type Claim = {
   id: string;
   title: string;
-  status: Status; // TODO
+  status: Status;
   risk_score: number | null;
   created_at: string;
   date?: string;
 };
+
+// Ensure deterministic date formatting across server and client to avoid
+// hydration mismatches. Always use a fixed locale and timezone.
+const galleryDateTimeFormatter = new Intl.DateTimeFormat("en-US", {
+  timeZone: "UTC",
+  year: "numeric",
+  month: "short",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: true,
+});
 
 export const columns: ColumnDef<Claim>[] = [
   {
@@ -40,13 +56,7 @@ export const columns: ColumnDef<Claim>[] = [
       const iso = row.original.created_at || (row.getValue("date") as string);
       const date = new Date(iso);
       if (Number.isNaN(date.getTime())) return "-";
-      return date.toLocaleString(undefined, {
-        year: "numeric",
-        month: "short",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
+      return galleryDateTimeFormatter.format(date);
     },
   },
   {
@@ -64,50 +74,82 @@ export const columns: ColumnDef<Claim>[] = [
   {
     accessorKey: "ai_score",
     header: "AI Score",
-    // TODO: Use a better bar component for the score
     cell: ({ row }) => {
       const score = row.original.risk_score;
+      const status = row.original.status;
       return (
         <div className="flex items-center gap-2">
-          {score ? (
-            <Progress value={score * 100} />
-          ) : (
+          {status === "todo" && (
+            <Button variant="outline" size="sm">
+              <GradientSparklesIcon className="h-4 w-4" />
+              Analyze
+            </Button>
+          )}
+          {status === "in progress" && (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
               <span className="text-muted-foreground">Pending</span>
             </>
           )}
-          {score && `${score * 100}%`}
+          {status === "done" && score && (
+            <>
+              <Progress value={score * 100} />
+              <span>{score * 100}%</span>
+            </>
+          )}
         </div>
       );
     },
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const claim = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-6 w-1 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(claim.id)}
-            >
-              Copy Claim ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View Claim</DropdownMenuItem>
-            <DropdownMenuItem>Generate Report</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    cell: ({ row }) => <ActionsCell claim={row.original} />,
   },
 ];
+
+type ActionsCellProps = { claim: Claim };
+
+function ActionsCell({ claim }: ActionsCellProps) {
+  const { startDeleteAnimation, refresh } = useRowActions();
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="h-6 w-1 p-0">
+          <span className="sr-only">Open menu</span>
+          <MoreHorizontal className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuItem
+          onClick={() => navigator.clipboard.writeText(claim.id)}
+        >
+          <Copy className="h-4 w-4" />
+          Copy Claim ID
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <Flag className="h-4 w-4" />
+          Generate Report
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          variant="destructive"
+          onClick={async () => {
+            const { success, error } = await deleteClaimById(claim.id);
+            if (success) {
+              await startDeleteAnimation(claim.id);
+              toast.success("Claim deleted");
+              refresh();
+            } else {
+              toast.error(error || "Delete failed");
+            }
+          }}
+        >
+          <Delete className="h-4 w-4" />
+          Delete Claim
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}

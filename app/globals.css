@@ -120,3 +120,18 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes row-delete {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.animate-row-delete {
+  animation: row-delete 0.5s ease forwards;
+}

@@ -54,7 +54,7 @@ export const login = async (prevState: LoginFormState, formData: FormData) => {
     cookieStore.set("access_token", access_token, {
       httpOnly: true,
       secure: true,
-      maxAge: 60 * 30,
+      maxAge: 60 * 30 * 24,
       sameSite: "lax",
       path: "/",
     });
