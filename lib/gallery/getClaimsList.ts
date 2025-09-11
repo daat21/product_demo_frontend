@@ -32,23 +32,29 @@ export const getClaimsList = async () => {
     const s = (raw || "").toLowerCase();
     if (s === "done") return "done";
     if (s === "in progress" || s === "in_progress") return "in progress";
-    if (s === "todo" || s === "to-do" || s === "to_do") return "todo";
+    if (s === "todo" || s === "to-do" || s === "to_do" || s === "to do")
+      return "todo";
     return "in progress";
   };
 
-  return (data as ApiClaim[]).map((item) => {
-    const riskRaw =
-      typeof item.risk_score === "number" ? item.risk_score : null;
-    const riskNormalized =
-      riskRaw == null ? null : riskRaw > 1 ? riskRaw / 100 : riskRaw; // 0..1
+  return (data as ApiClaim[])
+    .map((item) => {
+      const riskRaw =
+        typeof item.risk_score === "number" ? item.risk_score : null;
+      const riskNormalized =
+        riskRaw == null ? null : riskRaw > 1 ? riskRaw / 100 : riskRaw; // 0..1
 
-    return {
-      id: item.id,
-      title: item.title,
-      status: normalizeStatus(item.status),
-      risk_score: riskNormalized,
-      created_at: item.created_at,
-      date: item.created_at,
-    };
-  });
+      return {
+        id: item.id,
+        title: item.title,
+        status: normalizeStatus(item.status),
+        risk_score: riskNormalized,
+        created_at: item.created_at,
+        date: item.created_at,
+      };
+    })
+    .sort(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
 };

@@ -54,7 +54,6 @@ export default async function Page({
   const documents = Array.isArray(claimImages)
     ? claimImages.map((img: { previewUrl: string }) => img.previewUrl)
     : [];
-  console.log(claimImages);
 
   return (
     <div className="flex flex-col gap-8 px-8 lg:px-8">

@@ -12,9 +12,7 @@ import {
 import {
   Command,
   LayoutDashboard,
-  Images,
   SquareChartGantt,
-  UserPen,
   Settings,
   CircleQuestionMark,
   Database,
@@ -35,26 +33,26 @@ const data = {
   },
   navMain: [
     {
-      title: "Dashboard",
+      title: "Homepage",
       url: "/",
       icon: LayoutDashboard,
       isActive: true,
     },
-    {
-      title: "Gallery",
-      url: "/gallery",
-      icon: Images,
-    },
-    {
-      title: "Queue",
-      url: "/queue",
-      icon: SquareChartGantt,
-    },
-    {
-      title: "Profile",
-      url: "/profile",
-      icon: UserPen,
-    },
+    // {
+    //   title: "Gallery",
+    //   url: "/gallery",
+    //   icon: Images,
+    // },
+    // {
+    //   title: "Queue",
+    //   url: "/queue",
+    //   icon: SquareChartGantt,
+    // },
+    // {
+    //   title: "Profile",
+    //   url: "/profile",
+    //   icon: UserPen,
+    // },
   ],
   navSecondary: [
     {
