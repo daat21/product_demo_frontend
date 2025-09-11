@@ -57,7 +57,7 @@ export const columns: ColumnDef<Case>[] = [
     }
   },
   {
-    accessorKey: "username",
+    accessorKey: "investigator",
     header: "Investigator",
     cell: ({ row }) => {
       const investigator = row.original.username;
@@ -68,7 +68,7 @@ export const columns: ColumnDef<Case>[] = [
     accessorKey: "progress",
     header: "Progress",
     cell: ({ row }) => {
-      const progress = row.original.progress;
+      const progress = row.original.progress == 0 ? 5 : row.original.progress;
       return progress && <div className="flex flex-col items-center justify-center gap-1">
         <span>{progress}%</span>
         <Progress value={progress}/>

@@ -1,29 +1,14 @@
-"use client"
-
 import { ClaimsHistoryTable } from "@/components/dashboard/cases/data-table";
 import { Cards } from "@/components/dashboard/cases/cards";
 import Link from "next/link";
 import { ClaimsTable } from "@/components/dashboard/cases/claims-table";
 import { Case, columns } from "@/components/dashboard/cases/columns";
 import { NextStepTable } from "@/components/dashboard/cases/nextsteps/next-steps";
-import { useEffect, useState } from "react";
 import { getAllCasesList } from "@/lib/cases/getAllCases";
 
-export default function Page() {
-  const [data, setData] = useState<Case[]>([]);
+export default async function Page() {
 
-  useEffect(() => {
-    let isMounted = true;
-    (async () => {
-      const res = await getAllCasesList();
-      if (isMounted) {
-        setData(res ?? []);
-      }
-    })();
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const cases: Case[] = (await getAllCasesList()) ?? [];
 
   return (
     <div>
@@ -47,8 +32,14 @@ export default function Page() {
                 Queuing Cases
               </Link>
             </h2>
-            <ClaimsTable columns={columns} data={data} pageSize={15}/>
-            {/*<ClaimsQueueTable/>*/}
+            <ClaimsTable
+              columns={columns}
+              data={cases}
+              pageSize={11}
+              filterUnassigned={true}
+              enableInvestigator={false}
+              height={579}
+            />
           </div>
           <div className="flex-2 flex flex-col">
             <div>
@@ -66,11 +57,12 @@ export default function Page() {
               {/*Claims processing table*/}
               <ClaimsTable
                 columns={columns}
-                data={data}
+                data={cases}
                 enableInvestigator={true}
                 enableProgress={true}
-                filterProcessingOnly={true}
-                pageSize={8}
+                filterAssigned={true}
+                pageSize={3}
+                height={185}
               />
             </div>
           </div>
