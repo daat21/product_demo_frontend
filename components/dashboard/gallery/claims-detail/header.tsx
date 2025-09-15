@@ -5,10 +5,12 @@ export function ClaimsDetailHeader({
   title,
   status,
   date,
+  actions,
 }: {
   title: string;
   status: Status;
   date: string;
+  actions?: React.ReactNode;
 }) {
   return (
     <div className="flex items-center justify-between gap-2">
@@ -22,6 +24,7 @@ export function ClaimsDetailHeader({
           {date}
         </p>
       </div>
+      {actions ? <div className="flex items-center">{actions}</div> : null}
     </div>
   );
 }

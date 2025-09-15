@@ -70,6 +70,8 @@ export function ClaimsDetailChatbot() {
   const [open, setOpen] = React.useState(false);
   const [selectedUsers, setSelectedUsers] = React.useState<User[]>([]);
 
+  // TODO:  DEFAULT PROMPT
+
   const [messages, setMessages] = React.useState([
     {
       role: "agent",
