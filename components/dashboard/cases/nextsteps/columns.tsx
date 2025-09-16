@@ -11,6 +11,10 @@ import { CircleHelp, MoreHorizontal } from "lucide-react";
 import * as React from "react";
 import { Step } from "@/components/dashboard/cases/nextsteps/mock-data";
 import { useState } from "react";
+import { assignCase } from "@/lib/cases/assignCase";
+import { toast } from "sonner";
+import { Case } from "@/components/dashboard/cases/columns";
+import { getAllCasesList } from "@/lib/cases/getAllCases";
 
 
 export function TodoCell(
@@ -41,50 +45,52 @@ export function TodoCell(
   );
 }
 
-export const columns: ColumnDef<Step>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "todo",
-    header: "Todo",
-    cell: ({ row }) => (
-      <div className="flex items-center gap-2 capitalize">
-        {row.getValue("todo")}
-        <TodoCell text={row.original.explanation} />
-      </div>
-    ),
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => <div className="lowercase">{row.getValue("status")}</div>,
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const nextStep = row.original
-      return (
+export function createColumns(
+  setData: React.Dispatch<React.SetStateAction<Step[]>>,
+  setCases: React.Dispatch<React.SetStateAction<Case[]>> | null | undefined
+): ColumnDef<Step>[] {
+  return [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "todo",
+      header: "Todo",
+      cell: ({ row }) => (
+        <div className="flex items-center gap-2 capitalize">
+          {row.getValue("todo")}
+          <TodoCell text={row.original.explanation} />
+        </div>
+      ),
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => <div className="lowercase">{row.getValue("status")}</div>,
+    },
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
@@ -94,16 +100,26 @@ export const columns: ColumnDef<Step>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem
+              onClick={async () => {
+                await assignCase(row.original.claim_id, row.original.user_id)
+                toast.success("Case assigned successfully!")
+                setData(prev => prev.filter(item => item.id !== row.original.id))
+                const cases = await getAllCasesList()
+                if (setCases && cases) setCases(cases)
+              }}
             >
               Accept
             </DropdownMenuItem>
             <DropdownMenuItem
+              onClick={async () => {
+                setData(prev => prev.filter(item => item.id !== row.original.id))
+              }}
             >
               Stash
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      ),
     },
-  },
-]
+  ]
+}

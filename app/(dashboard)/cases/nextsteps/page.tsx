@@ -6,7 +6,10 @@ export default function Page() {
       <h1 className="mb-4 text-xl font-semibold tracking-tight">
         Next Suggested Steps
       </h1>
-      <NextStepTable enableDetails={true}/>
+      <NextStepTable
+        enableDetails={true}
+        pageSize={10}
+      />
     </div>
   </>
 }

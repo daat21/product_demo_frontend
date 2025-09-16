@@ -12,7 +12,7 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -30,16 +30,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { columns } from "@/components/dashboard/cases/nextsteps/columns";
-import { nextSteps } from "@/components/dashboard/cases/nextsteps/mock-data";
+import { createColumns } from "@/components/dashboard/cases/nextsteps/columns";
+import { nextSteps, Step } from "@/components/dashboard/cases/nextsteps/mock-data";
 import { useState } from "react";
+import { Case } from "@/components/dashboard/cases/columns";
 
 export function NextStepTable({
   enableDetails = false,
   pageSize = 5,
+  setCases
 }: {
   enableDetails?: boolean;
   pageSize?: number;
+  setCases?: React.Dispatch<React.SetStateAction<Case[]>>
 }) {
 
   const [pagination, setPagination] = useState({
@@ -54,9 +57,15 @@ export function NextStepTable({
   const [, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const [data, setData] = useState<Step[]>(nextSteps)
+
+  const columns = React.useMemo(
+    () => createColumns(setData, setCases),
+    [setData, setCases]
+  );
 
   const table = useReactTable({
-    data: nextSteps,
+    data: data,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -73,7 +82,6 @@ export function NextStepTable({
       rowSelection,
       pagination,
       columnVisibility: {
-        select: enableDetails,
         status: enableDetails,
       },
     },
@@ -168,10 +176,10 @@ export function NextStepTable({
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        {enableDetails && <div className="text-muted-foreground flex-1 text-sm">
+        <div className="flex text-muted-foreground flex-1 text-sm gap-2">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>}
+        </div>
         <div className="space-x-2">
           <Button
             variant="outline"
