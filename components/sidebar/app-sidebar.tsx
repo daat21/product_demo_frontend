@@ -24,6 +24,7 @@ import { NavMain } from "./nav-main";
 import { NavSecondary } from "./nav-secondary";
 import { NavDocuments } from "./nav-documents";
 import Link from "next/link";
+import Image from "next/image";
 
 const data = {
   user: {
@@ -107,12 +108,15 @@ export function AppSidebar({
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Link href="/">
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <Command className="size-4" />
+              <Link href="/" className="flex items-center gap-2">
+                <div className="flex aspect-square size-10 items-center justify-center rounded-lg overflow-hidden">
+                  <Image src="/sf.png" alt="logo" width={36} height={36}/>
                 </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">SpotFake.AI</span>
+                <div className="grid flex-1 text-left text-xl leading-tight">
+                  <span className="truncate font-bold">
+                    Spotfake
+                    <span className="text-green-700">.AI</span>
+                  </span>
                 </div>
               </Link>
             </SidebarMenuButton>
