@@ -67,18 +67,6 @@ const data = {
       icon: CircleQuestionMark,
     },
   ],
-  navDocuments: [
-    {
-      name: "Data Library",
-      url: "/data-library",
-      icon: Database,
-    },
-    {
-      name: "Reports",
-      url: "/reports",
-      icon: ClipboardPlus,
-    },
-  ],
   navManager: [
     {
       name: "Cases",
@@ -126,7 +114,6 @@ export function AppSidebar({
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavDocuments projects={data.navManager} label="Manager" />
-        <NavDocuments projects={data.navDocuments} label="Projects" />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
