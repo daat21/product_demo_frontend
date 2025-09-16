@@ -7,14 +7,44 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { CircleHelp, MoreHorizontal } from "lucide-react";
 import * as React from "react";
 import { Step } from "@/components/dashboard/cases/nextsteps/mock-data";
+import { useState } from "react";
+
+
+export function TodoCell(
+  {
+    text
+  }: {
+    text: string;
+  }) {
+  const [showBox, setShowBox] = useState(false);
+
+  return (
+    <div className="flex gap-2 capitalize">
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={() => setShowBox((prev) => !prev)}
+          className="text-muted-foreground hover:text-foreground"
+        >
+          <CircleHelp className="w-4 h-4"/>
+        </button>
+      </div>
+      {showBox && (
+        <div className="w-full rounded-md border bg-white p-2 shadow-md text-sm">
+          {text}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export const columns: ColumnDef<Step>[] = [
   {
     id: "select",
-    header: ({table}) => (
+    header: ({ table }) => (
       <Checkbox
         checked={
           table.getIsAllPageRowsSelected() ||
@@ -24,7 +54,7 @@ export const columns: ColumnDef<Step>[] = [
         aria-label="Select all"
       />
     ),
-    cell: ({row}) => (
+    cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -37,19 +67,22 @@ export const columns: ColumnDef<Step>[] = [
   {
     accessorKey: "todo",
     header: "Todo",
-    cell: ({row}) => (
-      <div className="capitalize">{row.getValue("todo")}</div>
+    cell: ({ row }) => (
+      <div className="flex items-center gap-2 capitalize">
+        {row.getValue("todo")}
+        <TodoCell text={row.original.explanation} />
+      </div>
     ),
   },
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({row}) => <div className="lowercase">{row.getValue("status")}</div>,
+    cell: ({ row }) => <div className="lowercase">{row.getValue("status")}</div>,
   },
   {
     id: "actions",
     enableHiding: false,
-    cell: ({row}) => {
+    cell: ({ row }) => {
       const nextStep = row.original
       return (
         <DropdownMenu>

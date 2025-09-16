@@ -60,10 +60,12 @@ export function ClaimsTable<TData extends { id: string, status: string }, TValue
       pagination,
     },
     onPaginationChange: setPagination,
+    manualPagination: false,
+    autoResetPageIndex: false,
   });
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       {enableToolbar && <DataTableToolbar/>}
       <div className="overflow-hidden rounded-md border">
         <div style={{ height: `${height}px` }} className="overflow-y-auto">
@@ -110,7 +112,7 @@ export function ClaimsTable<TData extends { id: string, status: string }, TValue
                     {/*rendering cells*/}
                     {/*inside jsx*/}
                     {row.getVisibleCells().map((cell) => {
-                      return <TableCell className="h-12" key={cell.id}>
+                      return <TableCell className="h-12.5" key={cell.id}>
                         {
                           flexRender(
                             cell.column.columnDef.cell,

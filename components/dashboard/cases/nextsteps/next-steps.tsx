@@ -32,12 +32,21 @@ import {
 } from "@/components/ui/table"
 import { columns } from "@/components/dashboard/cases/nextsteps/columns";
 import { nextSteps } from "@/components/dashboard/cases/nextsteps/mock-data";
+import { useState } from "react";
 
 export function NextStepTable({
   enableDetails = false,
+  pageSize = 5,
 }: {
   enableDetails?: boolean;
+  pageSize?: number;
 }) {
+
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: pageSize,
+  });
+
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -57,10 +66,12 @@ export function NextStepTable({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    onPaginationChange: setPagination,
     state: {
       sorting,
       columnFilters,
       rowSelection,
+      pagination,
       columnVisibility: {
         select: enableDetails,
         status: enableDetails,
@@ -134,7 +145,7 @@ export function NextStepTable({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell className="h-12.5" key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
