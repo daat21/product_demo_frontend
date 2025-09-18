@@ -1,9 +1,11 @@
-import { Cards } from "@/components/dashboard/cases/cards";
+import { Cards } from "@/components/dashboard/panel/cards";
+import Charts from "@/components/dashboard/panel/charts";
 
 export default function Page() {
   return <>
-    <div className="hidden h-full flex-1 flex-col gap-2 px-8 md:flex">
+    <div className="flex flex-col gap-4">
       <Cards />
+      <Charts />
     </div>
   </>
 }
