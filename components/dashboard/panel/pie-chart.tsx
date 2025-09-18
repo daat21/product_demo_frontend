@@ -18,60 +18,43 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
-export const description = "A simple pie chart"
 
 const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
+  { riskLevel: "high", count: 20, fill: "var(--color-high)" },
+  { riskLevel: "medium", count: 43, fill: "var(--color-medium)" },
+  { riskLevel: "low", count: 13, fill: "var(--color-low)" },
 ]
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
+  high: {
+    label: "High Risk",
     color: "var(--chart-1)",
   },
-  safari: {
-    label: "Safari",
+  medium: {
+    label: "Medium",
     color: "var(--chart-2)",
   },
-  firefox: {
-    label: "Firefox",
+  low: {
+    label: "Low",
     color: "var(--chart-3)",
-  },
-  edge: {
-    label: "Edge",
-    color: "var(--chart-4)",
-  },
-  other: {
-    label: "Other",
-    color: "var(--chart-5)",
   },
 } satisfies ChartConfig
 
-export function ChartPieSimple() {
+export function ChartPieLabel() {
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col min-h-[427px] max-h-[427px]">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart</CardTitle>
+        <CardTitle>Risk Score Distribution</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
+          className="[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square max-h-[250px] pb-0"
         >
           <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie data={chartData} dataKey="visitors" nameKey="browser" />
+            <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+            <Pie data={chartData} dataKey="count" label nameKey="riskLevel" />
           </PieChart>
         </ChartContainer>
       </CardContent>

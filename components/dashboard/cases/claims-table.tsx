@@ -18,12 +18,13 @@ interface DataTableProps<TData extends { id: string, status: string }, TValue> {
   enableProgress?: boolean;
   filterAssigned?: boolean,
   filterUnassigned?: boolean,
+  filterHighRisk?: boolean,
   pageSize?: number;
   height?: number;
 }
 
 // Where the table forms, and pagination is added.
-export function ClaimsTable<TData extends { id: string, status: string }, TValue>({
+export function ClaimsTable<TData extends { id: string, status: string, risk_score: number }, TValue>({
   columns,
   data,
   enableActions = false,
@@ -32,14 +33,19 @@ export function ClaimsTable<TData extends { id: string, status: string }, TValue
   enableProgress = false,
   filterAssigned = false,
   filterUnassigned = false,
+  filterHighRisk = false,
   pageSize = 10,
   height = 500,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
 
-  const filteredData: TData[] =
+  console.log("filterHighRisk", filterHighRisk);
+
+  let filteredData: TData[] =
     filterAssigned ? data.filter((row) => (row.status === "In Progress" || row.status === "To Do")) :
       filterUnassigned ? data.filter((row) => row.status === "New") : data;
+
+  filteredData = filterHighRisk ? filteredData.filter((row) => row.risk_score > 80) : filteredData;
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,

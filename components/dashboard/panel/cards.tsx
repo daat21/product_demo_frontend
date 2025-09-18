@@ -14,7 +14,7 @@ export function Cards() {
   return (
     <div
       className="
-      *:data-[slot=card]:from-primary/3
+      *:data-[slot=card]:from-primary/2
       *:data-[slot=card]:to-card
       dark:*:data-[slot=card]:bg-card
       *:data-[slot=card]:bg-gradient-to-t

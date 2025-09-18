@@ -1,7 +1,7 @@
 import { ChartBarInteractive } from "@/components/dashboard/panel/bar-char-interactive";
 import { ChartRadialSimple } from "@/components/dashboard/panel/radial-chart";
-import { ChartPieSimple } from "@/components/dashboard/panel/pie-chart";
-import { ChartLineDefault } from "@/components/dashboard/panel/line-chart";
+import { ChartPieLabel } from "@/components/dashboard/panel/pie-chart";
+import { ChartLineMultiple } from "@/components/dashboard/panel/line-chart";
 
 
 export default function Charts() {
@@ -19,13 +19,10 @@ export default function Charts() {
       <ChartRadialSimple />
     </div>
     <div data-slot="card">
-      <ChartPieSimple />
-    </div>
-    <div data-slot="card">
-      <ChartRadialSimple />
+      <ChartPieLabel />
     </div>
     <div className="col-span-2" data-slot="card">
-      <ChartLineDefault />
+      <ChartLineMultiple />
     </div>
   </div>
 }

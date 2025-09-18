@@ -33,19 +33,19 @@ const chartConfig = {
     label: "Visitors",
   },
   chrome: {
-    label: "Chrome",
+    label: "New",
     color: "var(--chart-1)",
   },
   safari: {
-    label: "Safari",
+    label: "In Progress",
     color: "var(--chart-2)",
   },
   firefox: {
-    label: "Firefox",
+    label: "Pending",
     color: "var(--chart-3)",
   },
   edge: {
-    label: "Edge",
+    label: "Done",
     color: "var(--chart-4)",
   },
   other: {
@@ -56,9 +56,9 @@ const chartConfig = {
 
 export function ChartRadialSimple() {
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col min-h-[427px] max-h-[427px]">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Radial Chart</CardTitle>
+        <CardTitle>Case Overview</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
