@@ -17,7 +17,7 @@ import {
   CircleQuestionMark,
   Database,
   ClipboardPlus,
-  Users,
+  Users, Gauge,
 } from "lucide-react";
 import { NavUser } from "./nav-user";
 import { NavMain } from "./nav-main";
@@ -68,6 +68,12 @@ const data = {
     },
   ],
   navManager: [
+    {
+      name: "Panel",
+      url: "/panel",
+      icon: Gauge,
+      isActive: true,
+    },
     {
       name: "Cases",
       url: "/cases",
