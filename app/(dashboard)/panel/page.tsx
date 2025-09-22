@@ -1,8 +1,14 @@
 import { Cards } from "@/components/dashboard/panel/cards";
 import Charts from "@/components/dashboard/panel/charts";
 import HighRiskClaimsWrapper from "@/components/dashboard/panel/high-risk-claims-wrapper";
+import { getAllCasesList } from "@/lib/cases/getAllCases";
+import { Case } from "@/components/dashboard/cases/columns";
+import { getStatistics } from "@/lib/cases/getStatistics";
 
-export default function Page() {
+export default async function Page() {
+
+  const cases: Case[] = (await getAllCasesList()) ?? [];
+  const stats = await getStatistics();
 
   return <>
     <div className="
@@ -13,9 +19,9 @@ export default function Page() {
       [&_[data-slot=card]]:bg-gradient-to-t
       [&_[data-slot=card]]:shadow-xs
     ">
-      <Cards/>
-      <HighRiskClaimsWrapper/>
-      <Charts/>
+      <Cards stats={stats} cases={cases}/>
+      <HighRiskClaimsWrapper cases={cases}/>
+      <Charts stats={stats} cases={cases}/>
     </div>
   </>
 }

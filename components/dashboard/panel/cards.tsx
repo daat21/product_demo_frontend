@@ -1,14 +1,26 @@
-import { TrendingDown, TrendingUp } from "lucide-react";
-
 import {
   Card,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Case } from "@/components/dashboard/cases/columns";
 
-export function Cards() {
+export type ClaimStats = {
+  New: number;
+  "In Progress": number;
+  Done: number;
+};
+
+export function Cards({
+  cases,
+  stats,
+}: {
+  cases: Case[]
+  stats: ClaimStats
+}) {
+  const highRiskCount = cases.filter((c) => c.risk_score > 80).length;
+
   return (
     <div
       className="
@@ -28,53 +40,33 @@ export function Cards() {
         <CardHeader>
           <CardDescription>Queueing</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            524
+            {stats.New}
           </CardTitle>
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Up 12.5% this week <TrendingUp className="size-4 text-green-700"/>
-          </div>
-        </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader>
           <CardDescription>Processing</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            134
+            {stats["In Progress"]}
           </CardTitle>
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 0.1% this week <TrendingDown className="size-4 text-red-700"/>
-          </div>
-        </CardFooter>
+      </Card>
+      <Card className="@container/card">
+        <CardHeader>
+          <CardDescription>Done</CardDescription>
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            {stats.Done}
+          </CardTitle>
+        </CardHeader>
       </Card>
       <Card className="@container/card">
         <CardHeader>
           <CardDescription>High Risk</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            38
+            {highRiskCount}
           </CardTitle>
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Up 12.5% this week <TrendingUp className="size-4 text-green-700"/>
-          </div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Mean Triage</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            42 min
-          </CardTitle>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Up 0.1% this week <TrendingUp className="size-4 text-green-700"/>
-          </div>
-        </CardFooter>
       </Card>
     </div>
   );

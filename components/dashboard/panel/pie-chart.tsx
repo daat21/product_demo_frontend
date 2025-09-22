@@ -27,7 +27,7 @@ const chartData = [
 
 const chartConfig = {
   high: {
-    label: "High Risk",
+    label: "High",
     color: "var(--chart-1)",
   },
   medium: {
@@ -54,7 +54,7 @@ export function ChartPieLabel() {
         >
           <PieChart>
             <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-            <Pie data={chartData} dataKey="count" label nameKey="riskLevel" />
+            <Pie data={chartData} dataKey="count" nameKey="riskLevel" label/>
           </PieChart>
         </ChartContainer>
       </CardContent>

@@ -2,9 +2,18 @@ import { ChartBarInteractive } from "@/components/dashboard/panel/bar-char-inter
 import { ChartRadialSimple } from "@/components/dashboard/panel/radial-chart";
 import { ChartPieLabel } from "@/components/dashboard/panel/pie-chart";
 import { ChartLineMultiple } from "@/components/dashboard/panel/line-chart";
+import { Case } from "@/components/dashboard/cases/columns";
+import { ClaimStats } from "@/components/dashboard/panel/cards";
+import { ChartPieLegend } from "@/components/dashboard/panel/pie-chart-2";
 
 
-export default function Charts() {
+export default function Charts({
+  cases,
+  stats,
+}: {
+  cases: Case[]
+  stats: ClaimStats
+}) {
   return <div className="
       px-4
       lg:px-6
@@ -16,9 +25,9 @@ export default function Charts() {
       "
   >
     <ChartBarInteractive/>
-
-    <ChartRadialSimple/>
+    <ChartRadialSimple cases={cases} stats={stats}/>
     <ChartPieLabel/>
     <ChartLineMultiple/>
+    <ChartPieLegend />
   </div>
 }
