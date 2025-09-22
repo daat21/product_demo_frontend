@@ -5,24 +5,20 @@ import { ChartLineMultiple } from "@/components/dashboard/panel/line-chart";
 
 
 export default function Charts() {
-  return <div className="*:data-[slot=card]:from-primary/5
-      *:data-[slot=card]:to-card
+  return <div className="
+      px-4
       lg:px-6
-      grid grid-cols-1 gap-4 px-4
+      gap-4
+      grid
+      grid-cols-1
       @xl/main:grid-cols-2
-      @5xl/main:grid-cols-4"
+      @5xl/main:grid-cols-4
+      "
   >
-    <div className="col-span-2" data-slot="card">
-      <ChartBarInteractive />
-    </div>
-    <div data-slot="card">
-      <ChartRadialSimple />
-    </div>
-    <div data-slot="card">
-      <ChartPieLabel />
-    </div>
-    <div className="col-span-2" data-slot="card">
-      <ChartLineMultiple />
-    </div>
+    <ChartBarInteractive/>
+
+    <ChartRadialSimple/>
+    <ChartPieLabel/>
+    <ChartLineMultiple/>
   </div>
 }

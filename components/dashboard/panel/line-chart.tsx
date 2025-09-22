@@ -41,7 +41,7 @@ const chartConfig = {
 
 export function ChartLineMultiple() {
   return (
-    <Card>
+    <Card className="col-span-2">
       <CardHeader>
         <CardTitle>Cases</CardTitle>
         <CardDescription>Cases in recent days</CardDescription>

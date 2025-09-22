@@ -1,24 +1,31 @@
+"use client"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ClaimsTable } from "@/components/dashboard/cases/claims-table";
 import { Case, columns } from "@/components/dashboard/cases/columns";
+import { useEffect, useState } from "react";
+import { getAllCasesList } from "@/lib/cases/getAllCases";
 
 
-export default function HighRiskClaimsCard({
-  cases
-}: {
-  cases: Case[]
-}) {
+export default function HighRiskClaimsWrapper() {
+
+  const [cases, setCases] = useState<Case[]>([])
+
+  useEffect(() => {
+    getAllCasesList().then((res) => setCases(res ?? []))
+  }, [])
+
   return <div className="
-      *:data-[slot=card]:from-primary/5
-      *:data-[slot=card]:to-card
       px-4
       lg:px-6
       grid
       grid-cols-1
-      gap-4
       @xl/main:grid-cols-2
-      @5xl/main:grid-cols-4" data-slot="card">
-    <Card className="col-span-4">
+      @5xl/main:grid-cols-4
+      "
+  >
+
+    <Card className="col-span-4 gap-2 border shadow-xs">
       <CardHeader className="items-center pb-0">
         <CardTitle>High-Risk Claims</CardTitle>
       </CardHeader>
