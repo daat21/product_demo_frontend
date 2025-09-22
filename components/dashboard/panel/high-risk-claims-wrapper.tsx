@@ -1,13 +1,20 @@
+"use client"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ClaimsTable } from "@/components/dashboard/cases/claims-table";
 import { Case, columns } from "@/components/dashboard/cases/columns";
+import { useEffect, useState } from "react";
+import { getAllCasesList } from "@/lib/cases/getAllCases";
 
 
-export default function HighRiskClaimsWrapper({
-  cases
-}: {
-  cases: Case[]
-}) {
+export default function HighRiskClaimsWrapper() {
+
+  const [cases, setCases] = useState<Case[]>([])
+
+  useEffect(() => {
+    getAllCasesList().then((res) => setCases(res ?? []))
+  }, [])
+
   return <div className="
       px-4
       lg:px-6
