@@ -165,7 +165,17 @@ export function GalleryImageUploader({
                 PNG, JPG, JPEG — multiple files supported
               </div>
               <div>
-                <Button size="sm" variant="outline" className="mt-2">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  className="mt-2 cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleBrowse();
+                  }}
+                >
                   Browse files
                 </Button>
               </div>

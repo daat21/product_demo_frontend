@@ -1,7 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { Check, Plus, Send } from "lucide-react";
+import { Check, Plus, Send, Loader2 } from "lucide-react";
+import { useChat, type UIMessage } from "@ai-sdk/react";
+import { DefaultChatTransport, TextStreamChatTransport } from "ai";
 
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -72,40 +74,56 @@ export function ClaimsDetailChatbot() {
 
   // TODO:  DEFAULT PROMPT
 
-  const [messages, setMessages] = React.useState([
-    {
-      role: "agent",
-      content: "Hi, how can I help you today?",
-    },
-    {
-      role: "user",
-      content: "Hey, what's the status of the claim?",
-    },
-    {
-      role: "agent",
-      content: "The claim is still under review.",
-    },
-    {
-      role: "user",
-      content: "When will it be resolved?",
-    },
-  ]);
+  const chat = useChat<UIMessage>({
+    messages: [
+      {
+        id: "greeting",
+        role: "assistant",
+        parts: [{ type: "text", text: "Hi, how can I help you today?" }],
+      },
+    ],
+    // If your server returns plain text stream, TextStreamChatTransport consumes it.
+    transport: new TextStreamChatTransport({ api: "/api/claims-chat" }),
+  });
+  const { messages, setMessages, status } = chat;
   const [input, setInput] = React.useState("");
+  const contentRef = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    const el = contentRef.current;
+    if (!el) return;
+    el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+  }, [messages]);
+
   const inputLength = input.trim().length;
+
+  const phase: "idle" | "thinking" | "responding" = React.useMemo(() => {
+    if (status === "submitted") return "thinking";
+    if (status === "streaming") return "responding";
+    return "idle";
+  }, [status]);
 
   return (
     <>
-      <Card className="w-full">
+      <Card className="w-full h-[420px] flex flex-col">
         <CardHeader className="flex flex-row items-center">
           <div className="flex items-center space-x-4">
             <div>
               <p className="text-sm font-medium leading-none">Agent Co-Pilot</p>
+              {phase !== "idle" ? (
+                <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                  <span>
+                    {phase === "thinking" ? "Thinking..." : "Responding..."}
+                  </span>
+                </div>
+              ) : null}
             </div>
           </div>
         </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {messages.map((message, index) => (
+        <CardContent className="flex-1 overflow-y-auto">
+          <div ref={contentRef} className="space-y-4 pr-2">
+            {messages.map((message: UIMessage, index: number) => (
               <div
                 key={index}
                 className={cn(
@@ -115,24 +133,30 @@ export function ClaimsDetailChatbot() {
                     : "bg-muted"
                 )}
               >
-                {message.content}
+                {(message.parts || [])
+                  .filter(
+                    (p: any) => p?.type === "text" || p?.type === "reasoning"
+                  )
+                  .map((p: any, i: number) => (
+                    <span key={i}>{p.text}</span>
+                  ))}
               </div>
             ))}
           </div>
         </CardContent>
         <CardFooter>
           <form
-            onSubmit={(event) => {
-              event.preventDefault();
+            onSubmit={async (e) => {
+              e.preventDefault();
               if (inputLength === 0) return;
-              setMessages([
-                ...messages,
-                {
-                  role: "user",
-                  content: input,
-                },
-              ]);
+              const userMessage: UIMessage = {
+                id: crypto.randomUUID(),
+                role: "user",
+                parts: [{ type: "text", text: input }],
+              };
+              setMessages([...(messages as UIMessage[]), userMessage]);
               setInput("");
+              await chat.sendMessage();
             }}
             className="flex w-full items-center space-x-2"
           >
@@ -142,7 +166,7 @@ export function ClaimsDetailChatbot() {
               className="flex-1"
               autoComplete="off"
               value={input}
-              onChange={(event) => setInput(event.target.value)}
+              onChange={(e) => setInput(e.target.value)}
             />
             <Button type="submit" size="icon" disabled={inputLength === 0}>
               <Send />

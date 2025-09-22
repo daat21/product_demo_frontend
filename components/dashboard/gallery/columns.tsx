@@ -159,7 +159,7 @@ function AiScoreCell({ claim }: AiScoreCellProps) {
           variant="outline"
           size="sm"
           onClick={handleAnalyze}
-          className="min-w-[120px]"
+          className="min-w-[120px] cursor-pointer"
           disabled={isAnalyzing}
         >
           {isAnalyzing ? (

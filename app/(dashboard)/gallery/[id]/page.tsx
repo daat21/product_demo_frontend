@@ -19,8 +19,6 @@ export default async function Page({
     ? claimImages.map((img: { previewUrl: string }) => img.previewUrl)
     : [];
 
-  console.log(claimDetails);
-
   return (
     <div className="flex flex-col gap-8 px-8 lg:px-8">
       <ClaimsDetailHeader
