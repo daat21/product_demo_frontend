@@ -16,125 +16,88 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { Case } from "@/components/dashboard/cases/columns";
+import { ClaimStats } from "@/components/dashboard/panel/cards";
 
-export const description = "An interactive bar chart"
 
-const chartData = [
-  { date: "2024-04-01", desktop: 222, mobile: 50 },
-  { date: "2024-04-02", desktop: 97, mobile: 80 },
-  { date: "2024-04-03", desktop: 167, mobile: 20 },
-  { date: "2024-04-04", desktop: 242, mobile: 60 },
-  { date: "2024-04-05", desktop: 373, mobile: 90 },
-  { date: "2024-04-06", desktop: 301, mobile: 40 },
-  { date: "2024-04-07", desktop: 245, mobile: 80 },
-  { date: "2024-04-08", desktop: 409, mobile: 20 },
-  { date: "2024-04-09", desktop: 59, mobile: 10 },
-  { date: "2024-04-10", desktop: 261, mobile: 190 },
-  { date: "2024-04-11", desktop: 327, mobile: 50 },
-  { date: "2024-04-12", desktop: 292, mobile: 20 },
-  { date: "2024-04-13", desktop: 342, mobile: 80 },
-  { date: "2024-04-14", desktop: 137, mobile: 20 },
-  { date: "2024-04-15", desktop: 120, mobile: 70 },
-  { date: "2024-04-16", desktop: 138, mobile: 90 },
-  { date: "2024-04-17", desktop: 446, mobile: 60 },
-  { date: "2024-04-18", desktop: 364, mobile: 40 },
-  { date: "2024-04-19", desktop: 243, mobile: 80 },
-  { date: "2024-04-20", desktop: 89, mobile: 50 },
-  { date: "2024-04-21", desktop: 137, mobile: 20 },
-  { date: "2024-04-22", desktop: 224, mobile: 170 },
-  { date: "2024-04-23", desktop: 138, mobile: 30 },
-  { date: "2024-04-24", desktop: 387, mobile: 90 },
-  { date: "2024-04-25", desktop: 215, mobile: 50 },
-  { date: "2024-04-26", desktop: 75, mobile: 30 },
-  { date: "2024-04-27", desktop: 383, mobile: 40 },
-  { date: "2024-04-28", desktop: 122, mobile: 80 },
-  { date: "2024-04-29", desktop: 315, mobile: 40 },
-  { date: "2024-04-30", desktop: 454, mobile: 80 },
-  { date: "2024-05-01", desktop: 165, mobile: 20 },
-  { date: "2024-05-02", desktop: 293, mobile: 30 },
-  { date: "2024-05-03", desktop: 247, mobile: 90 },
-  { date: "2024-05-04", desktop: 385, mobile: 40 },
-  { date: "2024-05-05", desktop: 481, mobile: 90 },
-  { date: "2024-05-06", desktop: 498, mobile: 50 },
-  { date: "2024-05-07", desktop: 388, mobile: 30 },
-  { date: "2024-05-08", desktop: 149, mobile: 20 },
-  { date: "2024-05-09", desktop: 227, mobile: 80 },
-  { date: "2024-05-10", desktop: 293, mobile: 30 },
-  { date: "2024-05-11", desktop: 335, mobile: 70 },
-  { date: "2024-05-12", desktop: 197, mobile: 40 },
-  { date: "2024-05-13", desktop: 197, mobile: 60 },
-  { date: "2024-05-14", desktop: 448, mobile: 90 },
-  { date: "2024-05-15", desktop: 473, mobile: 180 },
-  { date: "2024-05-16", desktop: 338, mobile: 40 },
-  { date: "2024-05-17", desktop: 499, mobile: 40 },
-  { date: "2024-05-18", desktop: 315, mobile: 50 },
-  { date: "2024-05-19", desktop: 235, mobile: 80 },
-  { date: "2024-05-20", desktop: 177, mobile: 30 },
-  { date: "2024-05-21", desktop: 82, mobile: 40 },
-  { date: "2024-05-22", desktop: 81, mobile: 20 },
-  { date: "2024-05-23", desktop: 252, mobile: 90 },
-  { date: "2024-05-24", desktop: 294, mobile: 220 },
-  { date: "2024-05-25", desktop: 201, mobile: 50 },
-  { date: "2024-05-26", desktop: 213, mobile: 70 },
-  { date: "2024-05-27", desktop: 420, mobile: 60 },
-  { date: "2024-05-28", desktop: 233, mobile: 190 },
-  { date: "2024-05-29", desktop: 78, mobile: 30 },
-  { date: "2024-05-30", desktop: 340, mobile: 80 },
-  { date: "2024-05-31", desktop: 178, mobile: 30 },
-  { date: "2024-06-01", desktop: 178, mobile: 20 },
-  { date: "2024-06-02", desktop: 470, mobile: 40 },
-  { date: "2024-06-03", desktop: 103, mobile: 60 },
-  { date: "2024-06-04", desktop: 439, mobile: 80 },
-  { date: "2024-06-05", desktop: 88, mobile: 40 },
-  { date: "2024-06-06", desktop: 294, mobile: 50 },
-  { date: "2024-06-07", desktop: 323, mobile: 70 },
-  { date: "2024-06-08", desktop: 385, mobile: 30 },
-  { date: "2024-06-09", desktop: 438, mobile: 80 },
-  { date: "2024-06-10", desktop: 155, mobile: 20 },
-  { date: "2024-06-11", desktop: 92, mobile: 50 },
-  { date: "2024-06-12", desktop: 492, mobile: 40 },
-  { date: "2024-06-13", desktop: 81, mobile: 30 },
-  { date: "2024-06-14", desktop: 426, mobile: 80 },
-  { date: "2024-06-15", desktop: 307, mobile: 50 },
-  { date: "2024-06-16", desktop: 371, mobile: 30 },
-  { date: "2024-06-17", desktop: 475, mobile: 50 },
-  { date: "2024-06-18", desktop: 107, mobile: 70 },
-  { date: "2024-06-19", desktop: 341, mobile: 90 },
-  { date: "2024-06-20", desktop: 408, mobile: 50 },
-  { date: "2024-06-21", desktop: 169, mobile: 20 },
-  { date: "2024-06-22", desktop: 317, mobile: 70 },
-  { date: "2024-06-23", desktop: 480, mobile: 50 },
-  { date: "2024-06-24", desktop: 132, mobile: 80 },
-  { date: "2024-06-25", desktop: 141, mobile: 90 },
-  { date: "2024-06-26", desktop: 434, mobile: 80 },
-  { date: "2024-06-27", desktop: 448, mobile: 90 },
-  { date: "2024-06-28", desktop: 149, mobile: 20 },
-  { date: "2024-06-29", desktop: 103, mobile: 60 },
-  { date: "2024-06-30", desktop: 446, mobile: 40 },
+const chartData1 = [
+  { date: "2024-04-01", all: 222, highRisk: 50 },
+  { date: "2024-04-02", all: 97, highRisk: 80 },
+  { date: "2024-04-03", all: 167, highRisk: 20 }
 ]
+
+type ChartData = {
+  date: string; // YYYY-MM-DD
+  all: number;
+  highRisk: number;
+};
+
+function getChartData(cases: Case[]): ChartData[] {
+  const now = new Date();
+  const threeMonthsAgo = new Date();
+  threeMonthsAgo.setMonth(now.getMonth() - 3);
+
+  // Step 1: filter last 3 months
+  const recentClaims = cases.filter((c) => {
+    const created = new Date(c.created_at);
+    return created >= threeMonthsAgo && created <= now;
+  });
+
+  // Step 2: group by date
+  const grouped: Record<string, { all: number; highRisk: number }> = {};
+
+  for (const claim of recentClaims) {
+    const date = claim.created_at.slice(0, 10); // YYYY-MM-DD
+    if (!grouped[date]) {
+      grouped[date] = { all: 0, highRisk: 0 };
+    }
+    grouped[date].all++;
+    if (claim.risk_score > 80) {
+      grouped[date].highRisk++;
+    }
+  }
+
+  // Step 3: convert to chartData sorted by date
+  return Object.entries(grouped)
+  .map(([date, { all, highRisk }]) => ({
+    date,
+    all,
+    highRisk,
+  }))
+  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+}
+
 
 const chartConfig = {
   views: {
     label: "Case Count",
   },
-  desktop: {
+  all: {
     label: "All",
     color: "var(--chart-2)",
   },
-  mobile: {
+  highRisk: {
     label: "High Risk",
     color: "var(--chart-1)",
   },
 } satisfies ChartConfig
 
-export function ChartBarInteractive() {
+export function ChartBarInteractive({
+  cases,
+}: {
+  cases: Case[]
+}) {
+  console.log(cases)
+  const chartData = getChartData(cases)
+  console.log(chartData)
+
   const [activeChart, setActiveChart] =
-    React.useState<keyof typeof chartConfig>("desktop")
+    React.useState<keyof typeof chartConfig>("all")
 
   const total = React.useMemo(
     () => ({
-      desktop: chartData.reduce((acc, curr) => acc + curr.desktop, 0),
-      mobile: chartData.reduce((acc, curr) => acc + curr.mobile, 0),
+      all: chartData.reduce((acc, curr) => acc + curr.all, 0),
+      highRisk: chartData.reduce((acc, curr) => acc + curr.highRisk, 0),
     }),
     []
   )
@@ -145,11 +108,11 @@ export function ChartBarInteractive() {
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 pt-4 pb-3 sm:!py-0">
           <CardTitle>Everyday Cases</CardTitle>
           <CardDescription>
-            Showing total cases for the last 3 months
+            For the last 3 months
           </CardDescription>
         </div>
         <div className="flex">
-          {["desktop", "mobile"].map((key) => {
+          {["all", "highRisk"].map((key) => {
             const chart = key as keyof typeof chartConfig
             return (
               <button

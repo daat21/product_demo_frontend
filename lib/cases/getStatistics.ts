@@ -14,5 +14,10 @@ export const getStatistics = async () => {
   });
   const data = await res.json();
   console.log(data);
+  // {
+  //     "New": 48,
+  //     "In Progress": 1,
+  //     "Done": 3
+  // }
   return data;
 };

@@ -38,33 +38,35 @@ export function Cards({
     >
       <Card className="@container/card" data-slot="card">
         <CardHeader>
-          <CardDescription>Queueing</CardDescription>
+          <CardDescription>Total Open Cases</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {stats.New}
+            {stats.New + stats["In Progress"]}
           </CardTitle>
         </CardHeader>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Processing</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {stats["In Progress"]}
-          </CardTitle>
-        </CardHeader>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Done</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {stats.Done}
-          </CardTitle>
-        </CardHeader>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>High Risk</CardDescription>
+          <CardDescription>High Risk Cases</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             {highRiskCount}
+          </CardTitle>
+        </CardHeader>
+      </Card>
+
+      <Card className="@container/card">
+        <CardHeader>
+          <CardDescription>Avg. Case Age</CardDescription>
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            14 hours
+          </CardTitle>
+        </CardHeader>
+      </Card>
+
+      <Card className="@container/card">
+        <CardHeader>
+          <CardDescription>Avg. Risk Score</CardDescription>
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            65 / 100
           </CardTitle>
         </CardHeader>
       </Card>
