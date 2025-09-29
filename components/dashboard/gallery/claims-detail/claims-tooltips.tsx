@@ -44,7 +44,13 @@ export function ClaimsToolTips({
   async function handleAnalyze() {
     try {
       setIsAnalyzing(true);
-      await getClaimScoreById(claimId);
+      const result = await getClaimScoreById(claimId);
+      if (result && typeof result === "object" && "success" in result) {
+        if (!result.success) {
+          toast.error(result.message || `Analyze failed for claim ${title}`);
+          return;
+        }
+      }
       toast.success(`Claim ${title} analysis complete`);
       onRefresh?.();
     } catch {

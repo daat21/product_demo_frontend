@@ -15,6 +15,14 @@ export const getClaimScoreById = async (id: string) => {
   );
   const data = await res.json();
 
+  if (data && data.detail === "No images") {
+    return {
+      success: false,
+      message: "No images to analyze. Please upload an image and try again.",
+      data,
+    } as const;
+  }
+
   revalidatePath("/gallery");
-  return data;
+  return { success: true, data } as const;
 };

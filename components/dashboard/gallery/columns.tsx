@@ -142,11 +142,25 @@ function AiScoreCell({ claim }: AiScoreCellProps) {
   const handleAnalyze = async () => {
     try {
       setIsAnalyzing(true);
-      await getClaimScoreById(claim.id);
+      const result = await getClaimScoreById(claim.id);
+      if (result && typeof result === "object" && "success" in result) {
+        if (!result.success) {
+          toast.error(
+            result.message || `Analyze failed for claim ${claim.title}`
+          );
+          return;
+        }
+      }
       toast.success(`Claim ${claim.title} Analysis complete`);
       refresh();
-    } catch {
-      toast.error(`Analyze failed for claim ${claim.title}`);
+    } catch (err) {
+      const message =
+        err instanceof Error
+          ? err.message
+          : typeof err === "string"
+          ? err
+          : `Analyze failed for claim ${claim.title}`;
+      toast.error(message);
     } finally {
       setIsAnalyzing(false);
     }
