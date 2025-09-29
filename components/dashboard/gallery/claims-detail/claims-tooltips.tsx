@@ -8,7 +8,7 @@ import { analyzeClaimAndToast } from "@/lib/gallery/analyzeClaimClient";
 import { deleteClaimById } from "@/lib/gallery/deleteClaimById";
 import { toast } from "sonner";
 import GalleryImageUploader from "@/components/dashboard/gallery/image-uploader";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -35,19 +35,42 @@ export function ClaimsToolTips({
   onRefresh,
 }: ClaimsToolTipsProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
   const [isAnalyzing, setIsAnalyzing] = React.useState(false);
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
   const [isUploading, setIsUploading] = React.useState(false);
   const closeUploadRef = React.useRef<HTMLButtonElement | null>(null);
+  const [openUpload, setOpenUpload] = React.useState(false);
+
+  // Auto-open Upload dialog based on query param
+  React.useEffect(() => {
+    const open = searchParams.get("openUpload");
+    if (open === "1" && !openUpload) {
+      setOpenUpload(true);
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("openUpload");
+      const nextUrl = params.toString()
+        ? `${pathname}?${params.toString()}`
+        : pathname;
+      router.replace(nextUrl, { scroll: false });
+    }
+  }, [searchParams, openUpload, pathname, router]);
 
   async function handleAnalyze() {
     try {
       setIsAnalyzing(true);
-      const { success } = await analyzeClaimAndToast(claimId, title);
-      if (success) {
-        onRefresh?.();
+      const { success, reason, duration } = await analyzeClaimAndToast(
+        claimId,
+        title
+      );
+      if (!success && reason === "NO_IMAGES") {
+        const delay = typeof duration === "number" ? duration : 2000;
+        setTimeout(() => setOpenUpload(true), delay);
+        return;
       }
+      if (success) onRefresh?.();
     } catch {
       toast.error(`Analyze failed for claim ${title}`);
     } finally {
@@ -92,7 +115,7 @@ export function ClaimsToolTips({
         )}
       </Button>
 
-      <Dialog>
+      <Dialog open={openUpload} onOpenChange={setOpenUpload}>
         <DialogTrigger asChild>
           <Button variant="outline" size="sm">
             <Upload className="h-4 w-4" />

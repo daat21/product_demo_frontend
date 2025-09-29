@@ -70,12 +70,17 @@ export function ClaimsDetailAnalysisResult({
               onClick={async () => {
                 try {
                   setIsAnalyzing(true);
-                  const { success } = await analyzeClaimAndToast(
-                    claimId,
-                    title
-                  );
-                  if (!success) return;
-                  router.refresh();
+                  const { success, reason, duration } =
+                    await analyzeClaimAndToast(claimId, title);
+                  if (!success && reason === "NO_IMAGES") {
+                    const delay =
+                      typeof duration === "number" ? duration : 2000;
+                    setTimeout(() => {
+                      router.push(`/gallery/${claimId}?openUpload=1`);
+                    }, delay);
+                    return;
+                  }
+                  if (success) router.refresh();
                 } catch {
                   toast.error(
                     `Analyze failed${title ? ` for claim ${title}` : ""}`

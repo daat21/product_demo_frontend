@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import * as React from "react";
 import { useRowActions } from "./row-actions-context";
 import { analyzeClaimAndToast } from "@/lib/gallery/analyzeClaimClient";
+import { useRouter } from "next/navigation";
 
 export type Claim = {
   id: string;
@@ -135,6 +136,7 @@ type AiScoreCellProps = { claim: Claim };
 
 function AiScoreCell({ claim }: AiScoreCellProps) {
   const { refresh } = useRowActions();
+  const router = useRouter();
   const [isAnalyzing, setIsAnalyzing] = React.useState(false);
 
   const score = claim.overall_manipulation_score;
@@ -142,10 +144,18 @@ function AiScoreCell({ claim }: AiScoreCellProps) {
   const handleAnalyze = async () => {
     try {
       setIsAnalyzing(true);
-      const { success } = await analyzeClaimAndToast(claim.id, claim.title);
-      if (success) {
-        refresh();
+      const { success, reason, duration } = await analyzeClaimAndToast(
+        claim.id,
+        claim.title
+      );
+      if (!success && reason === "NO_IMAGES") {
+        const delay = typeof duration === "number" ? duration : 2000;
+        setTimeout(() => {
+          router?.push(`/gallery/${claim.id}?openUpload=1`);
+        }, delay);
+        return;
       }
+      if (success) refresh();
     } catch (err) {
       const message =
         err instanceof Error
