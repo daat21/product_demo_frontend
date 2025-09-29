@@ -19,7 +19,7 @@ import { deleteClaimById } from "@/lib/gallery/deleteClaimById";
 import { toast } from "sonner";
 import * as React from "react";
 import { useRowActions } from "./row-actions-context";
-import { getClaimScoreById } from "@/lib/gallery/getClaimScoreById";
+import { analyzeClaimAndToast } from "@/lib/gallery/analyzeClaimClient";
 
 export type Claim = {
   id: string;
@@ -142,17 +142,10 @@ function AiScoreCell({ claim }: AiScoreCellProps) {
   const handleAnalyze = async () => {
     try {
       setIsAnalyzing(true);
-      const result = await getClaimScoreById(claim.id);
-      if (result && typeof result === "object" && "success" in result) {
-        if (!result.success) {
-          toast.error(
-            result.message || `Analyze failed for claim ${claim.title}`
-          );
-          return;
-        }
+      const { success } = await analyzeClaimAndToast(claim.id, claim.title);
+      if (success) {
+        refresh();
       }
-      toast.success(`Claim ${claim.title} Analysis complete`);
-      refresh();
     } catch (err) {
       const message =
         err instanceof Error

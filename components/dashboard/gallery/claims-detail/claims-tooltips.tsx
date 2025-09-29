@@ -4,7 +4,7 @@ import * as React from "react";
 import { Loader2, Upload, Trash2 } from "lucide-react";
 import GradientSparklesIcon from "@/components/ui/gradient-sparkles";
 import { Button } from "@/components/ui/button";
-import { getClaimScoreById } from "@/lib/gallery/getClaimScoreById";
+import { analyzeClaimAndToast } from "@/lib/gallery/analyzeClaimClient";
 import { deleteClaimById } from "@/lib/gallery/deleteClaimById";
 import { toast } from "sonner";
 import GalleryImageUploader from "@/components/dashboard/gallery/image-uploader";
@@ -44,15 +44,10 @@ export function ClaimsToolTips({
   async function handleAnalyze() {
     try {
       setIsAnalyzing(true);
-      const result = await getClaimScoreById(claimId);
-      if (result && typeof result === "object" && "success" in result) {
-        if (!result.success) {
-          toast.error(result.message || `Analyze failed for claim ${title}`);
-          return;
-        }
+      const { success } = await analyzeClaimAndToast(claimId, title);
+      if (success) {
+        onRefresh?.();
       }
-      toast.success(`Claim ${title} analysis complete`);
-      onRefresh?.();
     } catch {
       toast.error(`Analyze failed for claim ${title}`);
     } finally {

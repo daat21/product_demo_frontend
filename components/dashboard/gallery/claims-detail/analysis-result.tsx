@@ -16,7 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Loader2, AlertCircle } from "lucide-react";
 import GradientSparklesIcon from "@/components/ui/gradient-sparkles";
-import { getClaimScoreById } from "@/lib/gallery/getClaimScoreById";
+import { analyzeClaimAndToast } from "@/lib/gallery/analyzeClaimClient";
 import { toast } from "sonner";
 
 export function ClaimsDetailAnalysisResult({
@@ -70,21 +70,11 @@ export function ClaimsDetailAnalysisResult({
               onClick={async () => {
                 try {
                   setIsAnalyzing(true);
-                  const result = await getClaimScoreById(claimId);
-                  if (
-                    result &&
-                    typeof result === "object" &&
-                    "success" in result
-                  ) {
-                    if (!result.success) {
-                      toast.error(
-                        result.message ||
-                          `Analyze failed${title ? ` for claim ${title}` : ""}`
-                      );
-                      return;
-                    }
-                  }
-                  toast.success(`Claim ${title ?? ""} analysis complete`);
+                  const { success } = await analyzeClaimAndToast(
+                    claimId,
+                    title
+                  );
+                  if (!success) return;
                   router.refresh();
                 } catch {
                   toast.error(
