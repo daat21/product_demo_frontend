@@ -5,7 +5,6 @@ export const getStatistics = async () => {
   const accessToken = cookieStore.get("access_token");
 
   if (!accessToken) return null;
-  console.log("start getting statistics");
   const res = await fetch(process.env.NEXT_PUBLIC_SERVER_URL + "/claims/statistics", {
     method: "POST",
     headers: {
@@ -13,7 +12,6 @@ export const getStatistics = async () => {
     },
   });
   const data = await res.json();
-  console.log(data);
   // {
   //     "New": 48,
   //     "In Progress": 1,

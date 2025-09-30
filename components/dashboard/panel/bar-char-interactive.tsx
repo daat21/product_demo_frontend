@@ -87,9 +87,7 @@ export function ChartBarInteractive({
 }: {
   cases: Case[]
 }) {
-  console.log(cases)
   const chartData = getChartData(cases)
-  console.log(chartData)
 
   const [activeChart, setActiveChart] =
     React.useState<keyof typeof chartConfig>("all")

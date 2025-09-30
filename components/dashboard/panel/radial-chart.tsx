@@ -52,8 +52,8 @@ export function ChartRadialSimple({
   const chartData = [
     { status: "total", data: cases.length, fill: "var(--color-total)" },
     { status: "queueing", data: stats.New, fill: "var(--color-queueing)" },
-    { status: "inProgress", data: stats.Done, fill: "var(--color-inProgress)" },
-    { status: "done", data: stats["In Progress"], fill: "var(--color-done)" },
+    { status: "inProgress", data: stats["In Progress"], fill: "var(--color-inProgress)" },
+    { status: "done", data: stats.Done, fill: "var(--color-done)" },
   ]
   return (
     <Card className="flex flex-col min-h-[427px] max-h-[427px]">

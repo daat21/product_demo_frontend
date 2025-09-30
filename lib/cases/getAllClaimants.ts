@@ -6,13 +6,13 @@ export const getAllClaimants = async () => {
   return [
     {
       id: "11323",
-      name: "Domma",
+      name: "Domma D.",
       highRiskNum: 20,
       totalNum: 201,
     },
     {
       id: "1",
-      name: "Testa",
+      name: "Ted Robinson",
       highRiskNum: 12,
       totalNum: 21,
     },
@@ -24,7 +24,7 @@ export const getAllClaimants = async () => {
     },
     {
       id: "1",
-      name: "Gaot Rob",
+      name: "Gaot",
       highRiskNum: 12,
       totalNum: 21,
     },
@@ -36,7 +36,7 @@ export const getAllClaimants = async () => {
     },
     {
       id: "1",
-      name: "Karen",
+      name: "Karen J Tram",
       highRiskNum: 6,
       totalNum: 11,
     },

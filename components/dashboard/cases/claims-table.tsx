@@ -39,7 +39,6 @@ export function ClaimsTable<TData extends { id: string, status: string, risk_sco
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
 
-  console.log("filterHighRisk", filterHighRisk);
 
   let filteredData: TData[] =
     filterAssigned ? data.filter((row) => (row.status === "In Progress" || row.status === "To Do")) :

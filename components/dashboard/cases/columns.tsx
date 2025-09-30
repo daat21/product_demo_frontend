@@ -31,7 +31,6 @@ export const columns: ColumnDef<Case>[] = [
   {
     accessorKey: "id",
     header: "Case ID",
-    id: "id",
     cell: ({ row }) => {
       const id = row.original.id;
       return <div>CLM-{id.slice(0, 5).toUpperCase()}</div>;
@@ -40,7 +39,6 @@ export const columns: ColumnDef<Case>[] = [
   {
     accessorKey: "status",
     header: "Status",
-    id: "status",
     cell: ({ row }) => {
       const status = row.original.status;
       return <StatusBadge status="blue" content={status}/>;

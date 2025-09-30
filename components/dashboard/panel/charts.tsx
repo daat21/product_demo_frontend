@@ -28,8 +28,8 @@ export default function Charts({
     <ChartBarInteractive cases={cases}/>
     <ChartRadialSimple cases={cases} stats={stats}/>
     <ChartPieDonut cases={cases}/>
-    <ChartLineMultiple cases={cases}/>
-    <ChartPieLegend />
-    <ChartPieLabel/>
+    {/*<ChartLineMultiple cases={cases}/>*/}
+    {/*<ChartPieLegend />*/}
+    {/*<ChartPieLabel/>*/}
   </div>
 }
