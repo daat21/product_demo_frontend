@@ -111,7 +111,7 @@ export function ClaimsTable<TData extends { id: string, status: string, risk_sco
                       ) {
                         return;
                       }
-                      router.push(`/gallery/${row.original.id}`);
+                      router.push(`/claims/${row.original.id}`);
                     }}
                   >
                     {/*rendering cells*/}

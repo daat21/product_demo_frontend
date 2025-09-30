@@ -100,7 +100,7 @@ export function DataTable<TData extends { id: string }, TValue>({
                         return;
                       }
                       const id = row.original.id;
-                      router.push(`/gallery/${id}`);
+                      router.push(`/claims/${id}`);
                     }}
                   >
                     {row.getVisibleCells().map((cell) => (

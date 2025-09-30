@@ -59,14 +59,7 @@ export function DataTableToolbar() {
 
   return (
     <>
-      <Link href="/gallery" className="hover:underline">
-        <Button
-          variant="link"
-          className="text-2xl font-semibold tracking-tight cursor-pointer"
-        >
-          Gallery
-        </Button>
-      </Link>
+      
       <div className="flex items-center justify-between">
         <div className="flex flex-1 items-center gap-2">
           <Input
