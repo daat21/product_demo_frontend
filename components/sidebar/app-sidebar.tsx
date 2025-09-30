@@ -40,15 +40,15 @@ const data = {
       isActive: true,
     },
     {
-      title: "Underwriting",
-      url: "/underwriting",
-      icon: Pencil,
-      isActive: true,
-    },
-    {
       title: "Claims",
       url: "/claims",
       icon: FileSearch,
+      isActive: true,
+    },
+    {
+      title: "Underwriting",
+      url: "/underwriting",
+      icon: Pencil,
       isActive: true,
     },
     {
