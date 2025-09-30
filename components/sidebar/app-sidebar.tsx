@@ -17,7 +17,7 @@ import {
   CircleQuestionMark,
   Database,
   ClipboardPlus,
-  Users, Gauge,
+  Users, Gauge, Pencil, FileSearch, UserRoundSearch,
 } from "lucide-react";
 import { NavUser } from "./nav-user";
 import { NavMain } from "./nav-main";
@@ -37,6 +37,24 @@ const data = {
       title: "Home",
       url: "/",
       icon: LayoutDashboard,
+      isActive: true,
+    },
+    {
+      title: "Underwriting",
+      url: "/underwriting",
+      icon: Pencil,
+      isActive: true,
+    },
+    {
+      title: "Claims",
+      url: "/claims",
+      icon: FileSearch,
+      isActive: true,
+    },
+    {
+      title: "Investigations",
+      url: "/investigations",
+      icon: UserRoundSearch,
       isActive: true,
     },
     // {
