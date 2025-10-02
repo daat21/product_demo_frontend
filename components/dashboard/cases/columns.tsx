@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
 
-export type Case = {
+export type Claim = {
   id: string;
   title: string;
   description: string;
@@ -27,7 +27,7 @@ export type Case = {
   investigator: string;
 };
 
-export const columns: ColumnDef<Case>[] = [
+export const columns: ColumnDef<Claim>[] = [
   {
     accessorKey: "id",
     header: "Case ID",

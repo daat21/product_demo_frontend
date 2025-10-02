@@ -1,3 +1,5 @@
+"use client"
+
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -13,8 +15,8 @@ import { Step } from "@/components/dashboard/cases/nextsteps/mock-data";
 import { useState } from "react";
 import { assignCase } from "@/lib/cases/assignCase";
 import { toast } from "sonner";
-import { Case } from "@/components/dashboard/cases/columns";
-import { getAllCasesList } from "@/lib/cases/getAllCases";
+import { Claim } from "@/components/dashboard/cases/columns";
+import { getAllClaimsList } from "@/lib/cases/getAllClaims";
 
 
 export function TodoCell(
@@ -37,7 +39,7 @@ export function TodoCell(
         </button>
       </div>
       {showBox && (
-        <div className="w-full rounded-md border bg-white p-2 shadow-md text-sm">
+        <div className="w-full rounded-md border p-2 shadow-md text-sm">
           {text}
         </div>
       )}
@@ -47,7 +49,7 @@ export function TodoCell(
 
 export function createColumns(
   setData: React.Dispatch<React.SetStateAction<Step[]>>,
-  setCases: React.Dispatch<React.SetStateAction<Case[]>> | null | undefined
+  setCases: React.Dispatch<React.SetStateAction<Claim[]>> | null | undefined
 ): ColumnDef<Step>[] {
   return [
     {
@@ -104,7 +106,7 @@ export function createColumns(
                 await assignCase(row.original.claim_id, row.original.user_id)
                 toast.success("Case assigned successfully!")
                 setData(prev => prev.filter(item => item.id !== row.original.id))
-                const cases = await getAllCasesList()
+                const cases = await getAllClaimsList()
                 if (setCases && cases) setCases(cases)
               }}
             >

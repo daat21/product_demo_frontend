@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import {
   ColumnFiltersState,
@@ -31,7 +33,7 @@ import {
 import { createColumns } from "@/components/dashboard/cases/nextsteps/columns";
 import { nextSteps, Step } from "@/components/dashboard/cases/nextsteps/mock-data";
 import { useState } from "react";
-import { Case } from "@/components/dashboard/cases/columns";
+import { Claim } from "@/components/dashboard/cases/columns";
 
 export function NextStepTable({
   enableDetails = false,
@@ -40,7 +42,7 @@ export function NextStepTable({
 }: {
   enableDetails?: boolean;
   pageSize?: number;
-  setCases?: React.Dispatch<React.SetStateAction<Case[]>>
+  setCases?: React.Dispatch<React.SetStateAction<Claim[]>>
 }) {
 
   const [pagination, setPagination] = useState({

@@ -3,17 +3,17 @@
 import { ClaimsHistoryTable } from "@/components/dashboard/cases/data-table";
 import Link from "next/link";
 import { ClaimsTable } from "@/components/dashboard/cases/claims-table";
-import { Case, columns } from "@/components/dashboard/cases/columns";
+import { Claim, columns } from "@/components/dashboard/cases/columns";
 import { NextStepTable } from "@/components/dashboard/cases/nextsteps/next-steps";
-import { getAllCasesList } from "@/lib/cases/getAllCases";
 import { useEffect, useState } from "react";
+import { getAllClaimsList } from "@/lib/cases/getAllClaims";
 
 export default function CasesPage() {
 
-  const [cases, setCases] = useState<Case[]>([])
+  const [cases, setCases] = useState<Claim[]>([])
 
   useEffect(() => {
-    getAllCasesList().then((res) => setCases(res ?? []))
+    getAllClaimsList().then((res) => setCases(res ?? []))
   }, [])
 
   return (

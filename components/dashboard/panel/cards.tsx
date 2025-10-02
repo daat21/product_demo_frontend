@@ -4,7 +4,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Case } from "@/components/dashboard/cases/columns";
+import { Claim } from "@/components/dashboard/cases/columns";
 
 export type ClaimStats = {
   New: number;
@@ -13,13 +13,13 @@ export type ClaimStats = {
 };
 
 export function Cards({
-  cases,
+  claims,
   stats,
 }: {
-  cases: Case[]
+  claims: Claim[]
   stats: ClaimStats
 }) {
-  const highRiskCount = cases.filter((c) => c.risk_score > 80).length;
+  const highRiskCount = claims.filter((c) => c.risk_score > 80).length;
 
   return (
     <div

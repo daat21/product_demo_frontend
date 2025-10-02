@@ -1,16 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ClaimsTable } from "@/components/dashboard/cases/claims-table";
-import { Case, columns } from "@/components/dashboard/cases/columns";
+import { Claim, columns } from "@/components/dashboard/cases/columns";
 import { Claimant, claimantColumns } from "@/components/dashboard/panel/claimant-columns";
 import { ClaimantsTable } from "@/components/dashboard/panel/high-risk-claimants-table";
 
 
 export default function HighRiskClaimsWrapper(
   {
-    cases,
+    claims,
     claimants,
   }:{
-    cases: Case[]
+    claims: Claim[]
     claimants: Claimant[]
   }
 ) {
@@ -33,7 +33,7 @@ export default function HighRiskClaimsWrapper(
         <div className="hidden h-full flex-1 flex-col md:flex">
           <ClaimsTable
             columns={columns}
-            data={cases}
+            data={claims}
             pageSize={6}
             filterHighRisk={true}
             enableInvestigator={true}

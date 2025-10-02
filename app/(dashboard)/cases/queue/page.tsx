@@ -1,11 +1,10 @@
 
-import { Case, columns } from "@/components/dashboard/cases/columns";
+import { Claim, columns } from "@/components/dashboard/cases/columns";
 import { ClaimsTable } from "@/components/dashboard/cases/claims-table";
-import { getAllCasesList } from "@/lib/cases/getAllCases";
+import { getAllClaimsList } from "@/lib/cases/getAllClaims";
 
 export default async function Page() {
-  // TODO reuse the data
-  const cases: Case[] = (await getAllCasesList()) ?? [];
+  const cases: Claim[] = (await getAllClaimsList()) ?? [];
 
   return <>
     <div className="hidden h-full flex-1 flex-col gap-8 px-8 md:flex">

@@ -1,15 +1,15 @@
 import { Cards } from "@/components/dashboard/panel/cards";
 import Charts from "@/components/dashboard/panel/charts";
 import HighRiskClaimsWrapper from "@/components/dashboard/panel/high-risk-claims-wrapper";
-import { getAllCasesList } from "@/lib/cases/getAllCases";
-import { Case } from "@/components/dashboard/cases/columns";
+import { Claim } from "@/components/dashboard/cases/columns";
 import { getStatistics } from "@/lib/cases/getStatistics";
 import { getAllClaimants } from "@/lib/cases/getAllClaimants";
 import { Claimant } from "@/components/dashboard/panel/claimant-columns";
+import { getAllClaimsList } from "@/lib/cases/getAllClaims";
 
 export default async function Page() {
 
-  const cases: Case[] = (await getAllCasesList()) ?? [];
+  const claims: Claim[] = (await getAllClaimsList()) ?? [];
   const claimants: Claimant[] = await getAllClaimants();
   const stats = await getStatistics();
 
@@ -22,9 +22,9 @@ export default async function Page() {
       [&_[data-slot=card]]:bg-gradient-to-t
       [&_[data-slot=card]]:shadow-xs
     ">
-      <Cards stats={stats} cases={cases}/>
-      <HighRiskClaimsWrapper cases={cases} claimants={claimants}/>
-      <Charts stats={stats} cases={cases}/>
+      <Cards stats={stats} claims={claims}/>
+      <HighRiskClaimsWrapper claims={claims} claimants={claimants}/>
+      <Charts stats={stats} claims={claims}/>
     </div>
   </>
 }

@@ -16,14 +16,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import { Case } from "@/components/dashboard/cases/columns";
+import { Claim } from "@/components/dashboard/cases/columns";
 
-
-const chartData1 = [
-  { riskLevel: "low", num: 275, fill: "var(--color-low)" },
-  { riskLevel: "medium", num: 200, fill: "var(--color-medium)" },
-  { riskLevel: "high", num: 187, fill: "var(--color-high)" },
-]
 
 const chartConfig = {
   num: {
@@ -44,17 +38,17 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function ChartPieDonut({
-  cases,
+  claims,
 }: {
-  cases: Case[]
+  claims: Claim[]
 }) {
-  const lowCount = cases.filter((c) => {
+  const lowCount = claims.filter((c) => {
     return c.risk_score < 20;
   }).length;
-  const mediumCount = cases.filter((c) => {
+  const mediumCount = claims.filter((c) => {
     return c.risk_score > 20 && c.risk_score < 80;
   }).length;
-  const highCount = cases.filter((c) => {
+  const highCount = claims.filter((c) => {
     return c.risk_score > 80;
   }).length;
 
@@ -100,7 +94,7 @@ export function ChartPieDonut({
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {cases.length}
+                          {claims.length}
                         </tspan>
                         <tspan
                           x={viewBox.cx}

@@ -2,7 +2,8 @@
 
 import { cookies } from "next/headers";
 
-export const getAllCasesList = async () => {
+// get claims list including subordinates
+export const getAllClaimsList = async () => {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("access_token");
 

@@ -1,18 +1,15 @@
 import { ChartBarInteractive } from "@/components/dashboard/panel/bar-char-interactive";
 import { ChartRadialSimple } from "@/components/dashboard/panel/radial-chart";
-import { ChartPieLabel } from "@/components/dashboard/panel/pie-chart";
-import { ChartLineMultiple } from "@/components/dashboard/panel/line-chart";
-import { Case } from "@/components/dashboard/cases/columns";
+import { Claim } from "@/components/dashboard/cases/columns";
 import { ClaimStats } from "@/components/dashboard/panel/cards";
-import { ChartPieLegend } from "@/components/dashboard/panel/pie-chart-2";
 import { ChartPieDonut } from "@/components/dashboard/panel/pie-chart-donut";
 
 
 export default function Charts({
-  cases,
+  claims,
   stats,
 }: {
-  cases: Case[]
+  claims: Claim[]
   stats: ClaimStats
 }) {
   return <div className="
@@ -25,11 +22,8 @@ export default function Charts({
       @5xl/main:grid-cols-4
       "
   >
-    <ChartBarInteractive cases={cases}/>
-    <ChartRadialSimple cases={cases} stats={stats}/>
-    <ChartPieDonut cases={cases}/>
-    {/*<ChartLineMultiple cases={cases}/>*/}
-    {/*<ChartPieLegend />*/}
-    {/*<ChartPieLabel/>*/}
+    <ChartBarInteractive claims={claims}/>
+    <ChartRadialSimple claims={claims} stats={stats}/>
+    <ChartPieDonut claims={claims}/>
   </div>
 }

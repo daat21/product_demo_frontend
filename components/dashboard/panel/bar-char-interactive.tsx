@@ -16,7 +16,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import { Case } from "@/components/dashboard/cases/columns";
+import { Claim } from "@/components/dashboard/cases/columns";
 import { ClaimStats } from "@/components/dashboard/panel/cards";
 
 
@@ -32,13 +32,13 @@ type ChartData = {
   highRisk: number;
 };
 
-function getChartData(cases: Case[]): ChartData[] {
+function getChartData(claims: Claim[]): ChartData[] {
   const now = new Date();
   const threeMonthsAgo = new Date();
   threeMonthsAgo.setMonth(now.getMonth() - 3);
 
   // Step 1: filter last 3 months
-  const recentClaims = cases.filter((c) => {
+  const recentClaims = claims.filter((c) => {
     const created = new Date(c.created_at);
     return created >= threeMonthsAgo && created <= now;
   });
@@ -83,11 +83,11 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function ChartBarInteractive({
-  cases,
+  claims,
 }: {
-  cases: Case[]
+  claims: Claim[]
 }) {
-  const chartData = getChartData(cases)
+  const chartData = getChartData(claims)
 
   const [activeChart, setActiveChart] =
     React.useState<keyof typeof chartConfig>("all")

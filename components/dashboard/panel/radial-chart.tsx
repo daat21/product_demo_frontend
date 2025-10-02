@@ -16,7 +16,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import { Case } from "@/components/dashboard/cases/columns";
+import { Claim } from "@/components/dashboard/cases/columns";
 import { ClaimStats } from "@/components/dashboard/panel/cards";
 
 
@@ -43,14 +43,14 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function ChartRadialSimple({
-  cases,
+  claims,
   stats,
 }: {
-  cases: Case[]
+  claims: Claim[]
   stats: ClaimStats
 }) {
   const chartData = [
-    { status: "total", data: cases.length, fill: "var(--color-total)" },
+    { status: "total", data: claims.length, fill: "var(--color-total)" },
     { status: "queueing", data: stats.New, fill: "var(--color-queueing)" },
     { status: "inProgress", data: stats["In Progress"], fill: "var(--color-inProgress)" },
     { status: "done", data: stats.Done, fill: "var(--color-done)" },
