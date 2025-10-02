@@ -76,7 +76,7 @@ export function ClaimsDetailAnalysisResult({
                     const delay =
                       typeof duration === "number" ? duration : 2000;
                     setTimeout(() => {
-                      router.push(`/gallery/${claimId}?openUpload=1`);
+                      router.push(`/claims/${claimId}?openUpload=1`);
                     }, delay);
                     return;
                   }

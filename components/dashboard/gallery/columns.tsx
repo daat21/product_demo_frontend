@@ -151,7 +151,7 @@ function AiScoreCell({ claim }: AiScoreCellProps) {
       if (!success && reason === "NO_IMAGES") {
         const delay = typeof duration === "number" ? duration : 2000;
         setTimeout(() => {
-          router?.push(`/gallery/${claim.id}?openUpload=1`);
+          router?.push(`/claims/${claim.id}?openUpload=1`);
         }, delay);
         return;
       }
