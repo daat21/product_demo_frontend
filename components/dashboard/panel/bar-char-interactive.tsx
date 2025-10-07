@@ -17,14 +17,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import { Claim } from "@/components/dashboard/cases/columns";
-import { ClaimStats } from "@/components/dashboard/panel/cards";
 
-
-const chartData1 = [
-  { date: "2024-04-01", all: 222, highRisk: 50 },
-  { date: "2024-04-02", all: 97, highRisk: 80 },
-  { date: "2024-04-03", all: 167, highRisk: 20 }
-]
 
 type ChartData = {
   date: string; // YYYY-MM-DD

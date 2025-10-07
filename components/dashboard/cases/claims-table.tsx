@@ -39,7 +39,6 @@ export function ClaimsTable<TData extends { id: string, status: string, risk_sco
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
 
-
   let filteredData: TData[] =
     filterAssigned ? data.filter((row) => (row.status === "In Progress" || row.status === "To Do")) :
       filterUnassigned ? data.filter((row) => row.status === "New") : data;
@@ -95,8 +94,12 @@ export function ClaimsTable<TData extends { id: string, status: string, risk_sco
                   ))}
             </TableHeader>
             <TableBody>
-              {table.getRowModel().rows?.length ? (
+              {/*inside jsx*/}
+              {
+                // outside jsx
+                table.getRowModel().rows?.length ? (  // if there are roles
                 table.getRowModel().rows.map((row) => (
+                  // outside jsx
                   <TableRow
                     key={row.id}
                     // outside jsx (JavaScript XML)
@@ -117,8 +120,11 @@ export function ClaimsTable<TData extends { id: string, status: string, risk_sco
                     {/*rendering cells*/}
                     {/*inside jsx*/}
                     {row.getVisibleCells().map((cell) => {
+                      // outside jsx
                       return <TableCell className="h-12.5" key={cell.id}>
+                        {/*inside jsx*/}
                         {
+                          // outside jsx
                           flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext()
@@ -129,7 +135,7 @@ export function ClaimsTable<TData extends { id: string, status: string, risk_sco
                 ))
               ) : (
                 // outside jsx
-                // if there is no roles, show "No results"
+                // if there are no roles, show "No results"
                 <TableRow>
                   {/*inside jsx*/}
                   <TableCell
